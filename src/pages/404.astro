@@ -1,0 +1,14 @@
+---
+// src/pages/404.astro
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+<BaseLayout title="Página no encontrada — Arvipirineos">
+  <section class="section-y flex min-h-[80svh] flex-col items-center justify-center text-center">
+    <div class="container">
+      <span class="section-label">Error 404</span>
+      <h1 class="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.1] text-black">Página no encontrada</h1>
+      <p class="mt-4 text-[1.05rem] text-black/55">Parece que esta gallina se ha escapado del corral.</p>
+      <a href="/" class="mt-8 inline-block bg-black px-7 py-3 text-[0.9rem] font-semibold text-white no-underline transition-all hover:-translate-y-0.5 hover:bg-black/80">Volver al inicio</a>
+    </div>
+  </section>
+</BaseLayout>

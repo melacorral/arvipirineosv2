@@ -1,0 +1,127 @@
+---
+// src/components/Header.astro
+const navLinks = [
+  { href: "/", label: "Inicio" },
+  { href: "/about", label: "Nosotros" },
+  { href: "/blog", label: "Blog" },
+];
+const currentPath = Astro.url.pathname;
+---
+<nav
+  id="site-nav"
+  class="fixed inset-x-0 top-0 z-50 mix-blend-exclusion pointer-events-none py-5 transition-[padding] duration-500"
+>
+  <div class="container flex items-center justify-between pointer-events-auto">
+    <a href="/" class="no-underline">
+      <img
+        src="https://arvipirineos.es/wp-content/uploads/2024/08/cropped-arvipirineos_etiquetafrontal-scaled-1.webp"
+        alt="Arvipirineos"
+        class="h-10 w-auto brightness-0 invert lg:h-12"
+      />
+    </a>
+
+    <!-- Desktop -->
+    <div class="hidden items-center gap-8 md:flex">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            "relative text-[0.85rem] font-semibold uppercase tracking-[0.06em] text-white no-underline transition-colors duration-300",
+            currentPath === link.href && "nav-active",
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="/#comprar"
+        class="rounded-full border-2 border-black px-7 py-2.5 text-[0.85rem] font-bold uppercase tracking-wider text-black no-underline transition-all hover:bg-black hover:text-white"
+      >
+        Quiero mi caja
+      </a>
+    </div>
+
+    <!-- Mobile toggle -->
+   <button
+      id="menu-toggle"
+      class="relative z-60 flex h-8 w-8 flex-col items-center justify-center gap-[5px] md:hidden"
+      aria-label="Menú"
+    >
+      <span class="block h-[1.5px] w-5 bg-white transition-all duration-300" id="bar1"></span>
+      <span class="block h-[1.5px] w-5 bg-white transition-all duration-300" id="bar2"></span>
+    </button>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-50 flex translate-y-full flex-col items-center justify-center gap-8 bg-white mix-blend-normal pointer-events-auto transition-transform duration-500 ease-[cubic-bezier(0.53,0,0,1)] md:hidden"
+  >
+    {navLinks.map((link) => (
+      <a
+        href={link.href}
+        class="font-display text-[2rem] text-black no-underline transition-colors hover:text-egg"
+      >
+        {link.label}
+      </a>
+    ))}
+    
+    <a
+      href="/#comprar"
+      class="mt-8 btn-primary"
+    >
+      Quiero mi caja
+    </a>
+    
+  </div>
+</nav>
+
+<style>
+  /* Nav active underline — same pattern as COCOA */
+  .nav-active::before {
+    content: "";
+    position: absolute;
+    bottom: -0.2rem;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentcolor;
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+  a:not(.nav-active)::before {
+    content: "";
+    position: absolute;
+    bottom: -0.2rem;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentcolor;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform 0.6s cubic-bezier(0.53, 0, 0, 1);
+  }
+  a:not(.nav-active):hover::before {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const bar1 = document.getElementById("bar1");
+  const bar2 = document.getElementById("bar2");
+  let open = false;
+
+  toggle?.addEventListener("click", () => {
+    open = !open;
+    menu?.classList.toggle("translate-y-full");
+    if (open) {
+      bar1!.style.transform = "rotate(45deg) translate(2px, 2px)";
+      bar2!.style.transform = "rotate(-45deg) translate(2px, -2px)";
+    } else {
+      bar1!.style.transform = "";
+      bar2!.style.transform = "";
+    }
+  });
+</script>

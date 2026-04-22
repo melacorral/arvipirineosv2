@@ -1,0 +1,73 @@
+---
+// src/components/CookieBanner.astro
+---
+<div
+  id="cookie-banner"
+  class="fixed inset-x-0 bottom-0 z-[100] translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.53,0,0,1)]"
+  role="dialog"
+  aria-label="Aviso de cookies"
+>
+  <div class="mx-auto max-w-[680px] px-4 pb-5">
+    <div class="rounded-2xl border border-black/6 bg-white p-6 shadow-[0_-4px_32px_rgba(16,30,32,0.10)]">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
+        <div class="flex-1">
+          <p class="text-[0.92rem] leading-[1.65] text-black/70">
+            Usamos cookies propias y de terceros para analizar el uso del sitio y mejorar tu experiencia.
+            Puedes aceptarlas, rechazar las no esenciales o leer nuestra
+            <a href="/cookies" class="font-semibold text-black underline underline-offset-2 transition-colors hover:text-egg">política de cookies</a>.
+          </p>
+        </div>
+        <div class="flex shrink-0 gap-3">
+          <button
+            id="cookie-reject"
+            class="rounded-full border border-black/12 px-5 py-2 text-[0.82rem] font-semibold text-black/50 transition-all duration-200 hover:border-black/25 hover:text-black"
+          >
+            Solo esenciales
+          </button>
+          <button
+            id="cookie-accept"
+            class="rounded-full bg-black px-5 py-2 text-[0.82rem] font-semibold text-white transition-all duration-200 hover:bg-black/80"
+          >
+            Aceptar todas
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = "arvi-cookie-consent";
+  const banner = document.getElementById("cookie-banner");
+  const acceptBtn = document.getElementById("cookie-accept");
+  const rejectBtn = document.getElementById("cookie-reject");
+
+  type ConsentValue = "all" | "essential" | null;
+
+  function getConsent(): ConsentValue {
+    try {
+      const val = localStorage.getItem(STORAGE_KEY);
+      if (val === "all" || val === "essential") return val;
+    } catch { /* localStorage no disponible */ }
+    return null;
+  }
+
+  function setConsent(value: "all" | "essential") {
+    try { localStorage.setItem(STORAGE_KEY, value); } catch {}
+    hideBanner();
+    window.dispatchEvent(new CustomEvent("cookie-consent", { detail: { consent: value } }));
+  }
+
+  function showBanner() { banner?.classList.remove("translate-y-full"); }
+  function hideBanner() { banner?.classList.add("translate-y-full"); }
+
+  const consent = getConsent();
+  if (!consent) {
+    setTimeout(showBanner, 800);
+  } else {
+    window.dispatchEvent(new CustomEvent("cookie-consent", { detail: { consent } }));
+  }
+
+  acceptBtn?.addEventListener("click", () => setConsent("all"));
+  rejectBtn?.addEventListener("click", () => setConsent("essential"));
+</script>
