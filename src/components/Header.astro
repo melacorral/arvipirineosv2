@@ -41,41 +41,40 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <!-- Mobile toggle -->
-   <button
+    <button
       id="menu-toggle"
-      class="relative z-60 flex h-8 w-8 flex-col items-center justify-center gap-[5px] md:hidden"
+      class="relative z-[70] flex h-8 w-8 flex-col items-center justify-center gap-[5px] md:hidden"
       aria-label="Menú"
     >
       <span class="block h-[1.5px] w-5 bg-white transition-all duration-300" id="bar1"></span>
       <span class="block h-[1.5px] w-5 bg-white transition-all duration-300" id="bar2"></span>
     </button>
   </div>
-
-  <div
-    id="mobile-menu"
-    class="fixed inset-0 z-50 flex translate-y-full flex-col items-center justify-center gap-8 bg-white mix-blend-normal pointer-events-auto transition-transform duration-500 ease-[cubic-bezier(0.53,0,0,1)] md:hidden"
-  >
-    {navLinks.map((link) => (
-      <a
-        href={link.href}
-        class="font-display text-[2rem] text-black no-underline transition-colors hover:text-egg"
-      >
-        {link.label}
-      </a>
-    ))}
-    
-    <a
-      href="/#comprar"
-      class="mt-8 btn-primary"
-    >
-      Quiero mi caja
-    </a>
-    
-  </div>
 </nav>
 
+<!-- Mobile menu — FUERA del nav para que mix-blend-exclusion no le afecte -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-[60] flex translate-y-full flex-col items-center justify-center gap-8 bg-black transition-transform duration-500 ease-[cubic-bezier(0.53,0,0,1)] md:hidden"
+>
+  {navLinks.map((link) => (
+    <a
+      href={link.href}
+      class="font-display text-[2rem] text-white no-underline transition-colors hover:text-egg"
+    >
+      {link.label}
+    </a>
+  ))}
+
+  <a
+    href="/#comprar"
+    class="mt-8 btn-primary"
+  >
+    Quiero mi caja
+  </a>
+</div>
+
 <style>
-  /* Nav active underline —  */
   .nav-active::before {
     content: "";
     position: absolute;
@@ -115,6 +114,8 @@ const currentPath = Astro.url.pathname;
   toggle?.addEventListener("click", () => {
     open = !open;
     menu?.classList.toggle("translate-y-full");
+    // Bloquear scroll del body cuando el menú está abierto
+    document.body.style.overflow = open ? "hidden" : "";
     if (open) {
       bar1!.style.transform = "rotate(45deg) translate(2px, 2px)";
       bar2!.style.transform = "rotate(-45deg) translate(2px, -2px)";
@@ -122,5 +123,16 @@ const currentPath = Astro.url.pathname;
       bar1!.style.transform = "";
       bar2!.style.transform = "";
     }
+  });
+
+  // Cerrar el menú al hacer click en un enlace
+  menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      open = false;
+      menu.classList.add("translate-y-full");
+      document.body.style.overflow = "";
+      bar1!.style.transform = "";
+      bar2!.style.transform = "";
+    });
   });
 </script>
