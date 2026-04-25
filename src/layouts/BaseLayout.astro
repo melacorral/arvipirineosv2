@@ -4,6 +4,7 @@ import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import CookieBanner from "@/components/CookieBanner.astro";
+import { GoogleAnalytics } from "astro-google-analytics";
 import "@/styles/global.css";
 
 interface Props {
@@ -15,6 +16,7 @@ const { title, description } = Astro.props;
 <html lang="es">
   <head>
     <BaseHead title={title} description={description} />
+    <GoogleAnalytics id="G-L9SLY17ZWN" />
     <slot name="head" />
   </head>
   <body>
@@ -39,12 +41,12 @@ const { title, description } = Astro.props;
         smoothTouch: false,
       });
 
-      // Sync Lenis ↔ GSAP
       lenis.on("scroll", ScrollTrigger.update);
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
 
-      // ── Reveal animations (replaces IntersectionObserver) ──
+      // ── Reveal de textos y bloques ──
+      // toggleActions: play none none reverse → se activa al bajar, se revierte al subir
       gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) => {
         gsap.fromTo(
           el,
@@ -57,13 +59,56 @@ const { title, description } = Astro.props;
             scrollTrigger: {
               trigger: el,
               start: "top 88%",
-              toggleActions: "play none none none",
+              end: "top 20%",
+              toggleActions: "play none none reverse",
             },
           }
         );
       });
 
-      // ── Parallax images ──
+      // ── Reveal de imágenes desde el centro (clip-path) ──
+      gsap.utils.toArray<HTMLElement>(".imagen-reveal-center").forEach((img) => {
+        const contenedor = img.closest(".contenedor-reveal-center") || img.parentElement;
+        gsap.fromTo(
+          img,
+          { clipPath: "inset(50% 50% 50% 50%)", scale: 1.15 },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.inOut",
+            scrollTrigger: {
+              trigger: contenedor,
+              start: "top 85%",
+              end: "top 20%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // ── Reveal de imágenes desde un lado (clip-path lateral) ──
+      gsap.utils.toArray<HTMLElement>(".imagen-reveal").forEach((img) => {
+        const contenedor = img.closest(".contenedor-reveal") || img.closest(".contenedor-reveal-center") || img.parentElement;
+        gsap.fromTo(
+          img,
+          { clipPath: "inset(0% 100% 0% 0%)", scale: 1.15 },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.inOut",
+            scrollTrigger: {
+              trigger: contenedor,
+              start: "top 80%",
+              end: "top 20%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // ── Parallax ──
       gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
         const speed = parseFloat(el.dataset.parallax || "0.15");
         gsap.to(el, {
@@ -91,66 +136,5 @@ const { title, description } = Astro.props;
         });
       });
     </script>
-    <script>
-      import { gsap } from "gsap";
-      import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-      // Registramos el plugin
-      gsap.registerPlugin(ScrollTrigger);
-
-      // Creamos una función para inicializar la animación
-      function initImageReveal() {
-        // Buscamos todas las imágenes con la clase 'imagen-reveal'
-        const imagenes = gsap.utils.toArray(".imagen-reveal");
-
-        imagenes.forEach((img) => {
-          // Buscamos su contenedor para usarlo como disparador
-          const contenedor = img.closest('.contenedor-reveal') || img.parentElement;
-
-          gsap.fromTo(img, 
-            { 
-              clipPath: "inset(0% 50% 0% 50%)", // Empieza cerrada
-              scale: 1.2 
-            },
-            {
-              clipPath: "inset(0% 0% 0% 0%)",   // Se abre completamente
-              scale: 1,
-              duration: 1.5,
-              ease: "power3.inOut",
-              scrollTrigger: {
-                trigger: contenedor,
-                start: "top 80%", // Salta cuando el contenedor asoma por abajo
-              }
-            }
-          );
-        });
-      }
-
-      // Ejecutamos la función
-      initImageReveal();
-    </script>
-  </body>
-</html>
-
-    <!--
-      ═══ Contentsquare ═══
-      Descomentar cuando tengas el snippet.
-      Reemplaza CS_PROJECT_ID por tu ID real.
-      Solo se carga si el usuario aceptó todas las cookies.
-    -->
-    <!--
-    <script>
-      window.addEventListener("cookie-consent", (e: Event) => {
-        const detail = (e as CustomEvent).detail;
-        if (detail.consent === "all" && !document.getElementById("cs-script")) {
-          const s = document.createElement("script");
-          s.id = "cs-script";
-          s.src = "https://t.contentsquare.net/uxa/CS_PROJECT_ID.js";
-          s.async = true;
-          document.head.appendChild(s);
-        }
-      });
-    </script>
-    -->
   </body>
 </html>

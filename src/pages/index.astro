@@ -1,405 +1,543 @@
 ---
 // src/pages/index.astro
 import BaseLayout from "@/layouts/BaseLayout.astro";
----
-<BaseLayout title="Arvipirineos — Huevos ecológicos de la Jacetania">
 
-  <!-- ═══════ HERO — Video de gallinas (SE MANTIENE) ═══════ -->
-  <section class="relative flex min-h-[100svh] items-center justify-center overflow-hidden text-center">
-    <video autoplay muted loop playsinline class="absolute inset-0 h-full w-full object-cover">
+const title = "Arvipirineos — Huevos ecológicos del Pirineo Aragonés";
+const description =
+  "Microgranja ecológica de 1.000 gallinas en Santa Engracia de Jaca. Avicultura artesanal, huevos ecológicos y espárragos de producción regenerativa.";
+---
+
+<BaseLayout title={title} description={description}>
+
+  <!-- ═══ STRUCTURED DATA ═══ -->
+  <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://arvipirineos.es/#organization",
+      "name": "Arvipirineos",
+      "additionalType": [
+        "https://en.wikipedia.org/wiki/Organic_farming",
+        "https://en.wikipedia.org/wiki/Small_holding"
+      ],
+      "image": "https://arvipirineos.es/wp-content/uploads/2024/08/photo_2024-08-06_14-32-50.jpg",
+      "url": "https://arvipirineos.es",
+      "telephone": "+34669757675",
+      "priceRange": "€",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Santa Engracia de Jaca",
+        "addressLocality": "Jaca",
+        "addressRegion": "Huesca",
+        "postalCode": "22728",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 42.5458,
+        "longitude": -0.6625
+      },
+      "knowsAbout": [
+        "Producción agroalimentaria ecológica",
+        "Avicultura artesanal",
+        "Agricultura regenerativa",
+        "Espárragos del Pirineo"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Productos Arvipirineos",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Huevos ecológicos frescos"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Espárragos orgánicos de temporada"
+            }
+          }
+        ]
+      }
+    }
+  </script>
+
+
+  <!-- ═══ 1. HERO — Video de gallinas ═══ -->
+  <section class="sticky top-0 z-0 flex h-[100svh] items-center justify-center overflow-hidden text-center bg-black">
+    <video autoplay muted loop playsinline class="absolute inset-0 h-full w-full object-cover opacity-60">
       <source src="https://arvipirineos.es/wp-content/uploads/2026/04/Gallinas-camperas-criadas-en-libertad.mp4" type="video/mp4" />
     </video>
-    <div class="absolute inset-0 bg-black/45"></div>
-    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
-
-    <div class="container relative z-10 max-w-[720px] px-6">
-      <span class="mb-8 inline-block rounded-full bg-mint/80 px-5 py-1.5 text-[0.75rem] font-semibold uppercase tracking-[0.15em] text-black opacity-0 animate-[fadeUp_0.8s_0.3s_forwards]">
-        Avicultura artesanal · Santa Engracia de Jaca
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="container relative z-10 max-w-[850px] px-6 text-white">
+      <span class="mb-8 inline-block rounded-full bg-mint/80 px-5 py-1.5 text-[0.75rem] font-semibold uppercase tracking-[0.15em] text-black">
+        Microgranja ecológica · Santa Engracia de Jaca
       </span>
-      <h1 class="font-display text-[clamp(2.4rem,5.5vw,4rem)] leading-[1.15] text-white opacity-0 animate-[fadeUp_0.8s_0.5s_forwards]">
-        Huevos ecológicos de 1000 gallinas sueltas a los pies del Pirineo. <br>(viven como <em class="italic text-mint">reinas</em>.)
+      <h1 class="font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.05]">
+        Huevos ecológicos del Pirineo.<br />
+        <span class="text-mint-light italic font-light">De gallinas que viven como reinas.</span>
       </h1>
-      <p class="mx-auto mt-6 max-w-lg text-[clamp(1rem,2vw,1.2rem)] leading-[1.8] text-white/80 opacity-0 animate-[fadeUp_0.8s_0.7s_forwards]">
-         Carlos y Pepa recogen cada huevo a mano, le ponen el sello uno a uno y los bajan al mercado ellos mismos. <br>Así funciona Arvipirineos. <br>Así de sencillo y así de raro hoy en día.<br>
+      <p class="mx-auto mt-8 max-w-lg text-[1.25rem] font-medium">
+        Criados sin prisa. Puestos con calma.
       </p>
-      <a href="#comprar" class="mt-12 btn-primary opacity-0 animate-[fadeUp_0.8s_0.9s_forwards]">
-        Quiero mi caja
-      </a>
-    </div>
-  </section>
-
-  <!-- ═══════ NUESTRA VERDAD ═══════ -->
-  <section class="section-y">
-    <div class="container">
-      <div class="grid items-center gap-[clamp(2rem,5vw,4rem)] md:grid-cols-2">
-        <div class="reveal">
-          <span class="section-label">Nuestra verdad</span>
-          <h2 class="section-title">Menos máquinas, más manos.</h2>
-          <p class="text-[1.15rem] leading-[1.8] text-black/80">Somos Pepa y Carlos y en Arvipirineos hemos elegido el camino lento: una microgranja ecológica donde 1000 gallinas viven en verdadera libertad.</p>
-          <p class="mt-4 text-[1.05rem] leading-[1.8] text-black/55">Aquí no hay cintas transportadoras ni procesos industriales. Hay avicultura artesanal, respeto absoluto por los ritmos de la naturaleza y el compromiso de ofrecerte un alimento honesto, sostenible y con el sabor de toda la vida.</p>
-          <p class="mt-6 font-display text-[1.1rem] italic text-egg">Más que una granja, es nuestra forma de cuidar la tierra.</p>
-        </div>
-        <div class="contenedor-reveal overflow-hidden rounded-2xl">
-          <img
-            src="https://arvipirineos.es/wp-content/uploads/2024/08/photo_2024-08-06_14-32-50.jpg"
-            alt="Pepa y Carlos en la granja Arvipirineos"
-            class="imagen-reveal h-full w-full object-cover"
-           
-          />
-        </div>
+      <div class="mt-12">
+        <a href="#comprar" class="btn-primary">Pide tu caja</a>
       </div>
     </div>
   </section>
 
-  <!-- ═══════ CÓMO VIVEN LAS CHICAS ═══════ -->
-  <section class="section-y bg-mint">
-    <div class="container">
-      <div class="reveal mb-10 max-w-[620px]">
-        <span class="section-label !text-black/35">Bienestar animal</span>
-        <h2 class="section-title">1000 gallinas que viven como reinas a los pies del Pirineo Aragonés</h2>
+
+  <!-- ═══ CONTENIDO PRINCIPAL (z-10 sobre el hero sticky) ═══ -->
+  <div class="relative z-10">
+
+
+    <!-- ═══ 2. HISTORIA — Imagen IZQUIERDA ═══ -->
+    <section class="section-y bg-mint-light">
+      <div class="container">
+        <div class="grid items-center gap-16 md:grid-cols-2">
+          <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
+            <img
+              src="https://arvipirineos.es/wp-content/uploads/2024/08/photo_2024-08-06_14-32-50.jpg"
+              alt="Pepa y Carlos en la granja Arvipirineos"
+              class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+            />
+          </div>
+          <div class="reveal">
+            <span class="section-label">Así empezó todo</span>
+            <h2 class="section-title">Del andamio al gallinero.</h2>
+            <p class="text-[1.1rem] leading-[1.8] text-black/80">
+              Marzo de 2020. El mundo se para. Y Carlos, después de muchos años subido a un andamio en la Jacetania, decide que es buen momento para bajar. Fue lo único que se podía hacer estando encerrados: adaptarnos a la realidad, poner los pies en la tierra literalmente e ir a su ritmo.
+            </p>
+            <p class="mt-4 text-[1.05rem] leading-[1.8] text-black/55">
+              Empezamos con unas pocas gallinas en Santa Engracia de Jaca. Y resulta que el ritmo de la granja nos sentó bien.
+            </p>
+            <p class="mt-6 font-display italic text-lg text-egg">Hoy ya tenemos 1.000 gallinas. Y seguimos haciendo todo a mano.</p>
+          </div>
+        </div>
       </div>
-      <div class="mt-16 grid gap-6 sm:grid-cols-3">
-        
-        <div class="reveal">
-          <div class="h-full rounded-2xl border border-black/5 bg-white p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_36px_rgba(16,30,32,0.06)]">
-            <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-egg/15">
-              <svg class="h-6 w-6 text-black/80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="4"></circle>
-                <path d="M12 2v2"></path><path d="M12 20v2"></path>
-                <path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path>
-                <path d="M2 12h2"></path><path d="M20 12h2"></path>
-                <path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+    </section>
+
+
+    <!-- ═══ 3. PROCESOS A MANO — Imagen DERECHA ═══ -->
+    <section class="section-y bg-mint-light">
+      <div class="container">
+        <div class="grid items-center gap-16 md:grid-cols-2">
+          <div class="reveal">
+            <span class="section-label">Avicultura artesanal</span>
+            <h2 class="section-title">Todos los procesos se hacen a mano.</h2>
+            <p class="text-[1.1rem] leading-[1.8] text-black/80">
+              Aquí nada está mecanizado. Cada huevo se recoge del nido, se revisa, se pesa y se marca uno a uno. Los nietos nos ayudan cuando vienen.
+            </p>
+            <p class="mt-4 text-[1.05rem] leading-[1.8] text-black/55">
+              Y Niebla, nuestra jefa de seguridad, es una auténtica especialista en convencer a zorros y rapaces de que busquen el desayuno en otro sitio.
+            </p>
+          </div>
+          <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
+            <img
+              src="https://arvipirineos.es/wp-content/uploads/2026/04/photo_2026-04-21_12-43-50.jpg"
+              alt="Niebla, la pastora de Arvipirineos"
+              class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══ 4. BIENESTAR ANIMAL — 4 Tarjetas con iconos SVG ═══ -->
+    <section class="section-y bg-mint">
+      <div class="container">
+        <div class="reveal mb-12 text-center max-w-3xl mx-auto">
+          <span class="section-label !text-black/40">Bienestar real</span>
+            <h2 class="section-title">Menos Dubai, más Pirineo.</h2>
+          <p class="mt-4 text-black/60 italic leading-relaxed">Si nuestras gallinas fueran personas estarían todo el día subiendo videos de lifestyle. Aire puro, comida ecológica, cero estrés laboral y siesta bajo los frutales. Vamos, que buscando el hashtag para sus stories. Y no es para menos.</p>
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+          <!-- Tarjeta 1: Menú 5 estrellas -->
+          <div class="reveal bg-white p-8 rounded-2xl">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-mint-light">
+              <svg class="h-6 w-6 text-black/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2c1 3 3 5 6 5-1 3-3 5-6 9-3-4-5-6-6-9 3 0 5-2 6-5z"/>
+                <path d="M8 15c-2 0-4 1-4 4h16c0-3-2-4-4-4"/>
+                <line x1="9" y1="22" x2="15" y2="22"/>
               </svg>
             </div>
-            <h3 class="mb-2 font-display text-[1.25rem] text-black">Cero jaulas. Cero estrés.</h3>
-            <p class="text-[0.95rem] leading-[1.6] text-black/60">
-              Nuestras chicas corretean, escarban y se dan baños de arena libres todo el día.
+            <h3 class="font-display text-xl mb-3">Menú 5 estrellas</h3>
+            <p class="text-sm text-black/60">Semillas, hierbas y bichitos. Pienso ecológico certificado para una dieta variada y natural.</p>
+          </div>
+
+          <!-- Tarjeta 2: Campo abierto -->
+          <div class="reveal bg-white p-8 rounded-2xl">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-mint-light">
+              <svg class="h-6 w-6 text-black/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 8c2 0 4 1.5 4 4s-2 4-4 4"/>
+                <path d="M7 8c-2 0-4 1.5-4 4s2 4 4 4"/>
+                <path d="M12 4c2 0 3 2 3 4v4c0 3-1 6-3 8-2-2-3-5-3-8V8c0-2 1-4 3-4z"/>
+              </svg>
+            </div>
+            <h3 class="font-display text-xl mb-3">A la sombra del manzano</h3>
+            <p class="text-sm text-black/60">Hectáreas bajo los frutales. Agua fresca en verano y cobijo real en invierno.</p>
+          </div>
+
+          <!-- Tarjeta 3: Libertad total -->
+          <div class="reveal bg-white p-8 rounded-2xl">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-mint-light">
+              <svg class="h-6 w-6 text-black/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8v4l3 3"/>
+                <path d="M7.5 7.5L12 12"/>
+              </svg>
+            </div>
+            <h3 class="font-display text-xl mb-3">Libertad total</h3>
+            <p class="text-sm text-black/60">No saben lo que es una jaula. Corretean y cotillean por donde les da la gana.</p>
+          </div>
+
+          <!-- Tarjeta 4: Cero estrés -->
+          <div class="reveal bg-white p-8 rounded-2xl">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-mint-light">
+              <svg class="h-6 w-6 text-black/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a6 6 0 0 0-6 6c0 5 6 9 6 9s6-4 6-9a6 6 0 0 0-6-6z"/>
+                <circle cx="12" cy="9" r="2"/>
+              </svg>
+            </div>
+            <h3 class="font-display text-xl mb-3">Cero estrés</h3>
+            <p class="text-sm text-black/60">Al ritmo del sol y las estaciones. Las gallinas ponen cuando quieren, no cuando lo dice un reloj.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══ 5. PRODUCCIÓN LIMITADA (NUEVA) — Imagen IZQUIERDA ═══ -->
+    <section class="section-y bg-mint-light">
+      <div class="container">
+        <div class="grid items-center gap-16 md:grid-cols-2">
+          <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
+            <img
+              src="https://arvipirineos.es/wp-content/uploads/2026/04/arvipirineoskn1-scaled.webp"
+              alt="Huevos ecológicos de Aragón Arvipirineos"
+              class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+            />
+          </div>
+          <div class="reveal">
+            <span class="section-label">Avicultura artesanal</span>
+            <h2 class="section-title">A veces no hay huevos. Y eso es lo natural.</h2>
+            <p class="text-[1.1rem] leading-[1.8] text-black/80">
+              Porque aquí manda la naturaleza. En la industria, las gallinas ponen a destajo: luces artificiales las 24 horas, cero descanso, máxima producción. Aquí respetamos sus biorritmos como si fueran de la familia (que lo son).
+            </p>
+            <p class="mt-4 text-[1.05rem] leading-[1.8] text-black/55">
+              Eso significa que en invierno ponen menos (los días son más cortos y ellas descansan más), en verano ponen más (más luz natural, más actividad) y nunca forzamos nada.
+            </p>
+            <p class="mt-6 font-display italic text-lg text-egg">
+              Producción limitada, sí. Pero cada huevo es el que tiene que ser: puesto con calma.
             </p>
           </div>
         </div>
-
-        <div class="reveal">
-          <div class="h-full rounded-2xl border border-black/5 bg-white p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_36px_rgba(16,30,32,0.06)]">
-            <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-mint/50">
-              <svg class="h-6 w-6 text-black/80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
-              </svg>
-            </div>
-            <h3 class="mb-2 font-display text-[1.25rem] text-black">Ritmo natural</h3>
-            <p class="text-[0.95rem] leading-[1.6] text-black/60">
-              No forzamos la puesta. Respetamos su ciclo biológico: ponen cuando la naturaleza lo dicta.
-            </p>
-          </div>
-        </div>
-
-        <div class="reveal">
-          <div class="h-full rounded-2xl border border-black/5 bg-white p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_36px_rgba(16,30,32,0.06)]">
-            <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-egg/15">
-              <svg class="h-6 w-6 text-black/80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
-                <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
-                <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
-                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
-                <path d="M6 11V6a2 2 0 0 1 2-2v0"></path><path d="M6 11V6a2 2 0 0 1 2-2v0"></path>
-              </svg>
-            </div>
-            <h3 class="mb-2 font-display text-[1.25rem] text-black">Recogida manual</h3>
-            <p class="text-[0.95rem] leading-[1.6] text-black/60">
-              Recogemos cada huevo uno a uno, a mano. Sin cintas transportadoras ni máquinas.
-            </p>
-          </div>
-        </div>
-
       </div>
-  </section>
+    </section>
 
- <section class="section-y relative overflow-hidden bg-mint-light text-black">
-    <div class="container relative z-10">
-      <div class="grid items-center gap-[clamp(2rem,5vw,4rem)] md:grid-cols-2">
-        
-        <div class="reveal">
-          <span class="section-label">Producto artesanal</span>
-          <h2 class="section-title">El sabor de lo hecho a mano</h2>
-          
-          <p class="text-[1.05rem] leading-[1.8] text-black/75">
-            <strong class="text-black">¿Por qué son diferentes? Porque SON diferentes.</strong> El color intenso de la yema y su sabor auténtico solo se consiguen con gallinas felices que comen pasto.
-          </p>
-          <p class="mt-4 text-[1.05rem] leading-[1.8] text-black/75">
-            Nuestra producción es limitada porque apostamos por la producción artesanal de proximidad y la distribución limitada.
-          </p>
-          
-          <div class="mt-8 flex flex-col gap-6">
-            
-            <div class="flex gap-4">
-              <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-egg/15">
-                <svg class="h-5 w-5 text-black/80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path><path d="M6 11V6a2 2 0 0 1 2-2v0"></path><path d="M6 11V6a2 2 0 0 1 2-2v0"></path></svg>
-              </span>
-              <p class="text-[0.95rem] text-black/75">
-                <strong class="block text-black">Recogida manual</strong>
-                Recogemos cada huevo uno a uno, con mimo.
-              </p>
+
+    <!-- ═══ 6. POR QUÉ SABEN DIFERENTE (NUEVA) — Imagen DERECHA ═══ -->
+    <section class="section-y bg-mint-light">
+      <div class="container">
+        <div class="grid items-center gap-16 md:grid-cols-2">
+          <div class="reveal">
+            <span class="section-label">Kilómetro cero</span>
+            <h2 class="section-title">¿Por qué saben diferente? Porque SON diferentes.</h2>
+            <p class="text-[1.1rem] leading-[1.8] text-black/80">
+              Más Omega-3 (gracias a que las gallinas en libertad picotean lo que les da la gana), más vitaminas A y E, y ese color de yema que solo sale cuando una gallina come hierba fresca y no pienso industrial.
+            </p>
+
+            <div class="mt-8 space-y-5 border-t border-black/10 pt-8">
+              <div class="flex gap-4">
+                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-egg/20">
+                  <svg class="h-4 w-4 text-black/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </span>
+                <p class="text-[0.95rem] text-black/70"><strong>Un huevo que cambia con las estaciones.</strong> Como comen lo que ofrece el Pirineo en cada momento, la yema varía de tono. El sabor tiene matices. No es un defecto: es la prueba de que esto es real.</p>
+              </div>
+              <div class="flex gap-4">
+                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-egg/20">
+                  <svg class="h-4 w-4 text-black/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+                </span>
+                <p class="text-[0.95rem] text-black/70"><strong>Fresquitos, fresquitos.</strong> Del nido a tu cocina en un periquete. Cada huevo lleva su sello de garantía, puesto a mano, uno a uno.</p>
+              </div>
+              <div class="flex gap-4">
+                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-egg/20">
+                  <svg class="h-4 w-4 text-black/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </span>
+                <p class="text-[0.95rem] text-black/70"><strong>Un huevo completo, no solo rico.</strong> Proteína de alta calidad, grasas buenas, más betacaroteno (por eso la yema es más naranja). Tu cuerpo lo nota aunque tú no te des cuenta.</p>
+              </div>
             </div>
-
-            <div class="flex gap-4">
-              <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mint/50">
-                <svg class="h-5 w-5 text-black/80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m9 11 3 3L22 4"></path></svg>
-              </span>
-              <p class="text-[0.95rem] text-black/75">
-                <strong class="block text-black">Etiquetado manual</strong>
-                Ponemos el sello de garantía a mano, validando frescura y calidad.
-              </p>
-            </div>
-
-            <div class="flex gap-4">
-              <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-egg/15">
-                <svg class="h-5 w-5 text-black/80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11"></path><path d="M14 9h4l4 4v5c0 .6-.4 1-1 1h-2"></path><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>
-              </span>
-              <p class="text-[0.95rem] text-black/75">
-                <strong class="block text-black">Sin intermediarios</strong>
-                Del nido al mercado, directos a tu cocina.
-              </p>
-            </div>
-
+          </div>
+          <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
+            <img
+              src="https://arvipirineos.es/wp-content/uploads/2024/08/photo_2024-08-06_14-32-39-1.jpg"
+              alt="Yema naranja de huevo ecológico Arvipirineos"
+              class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+            />
           </div>
         </div>
-
-        <div class="contenedor-reveal overflow-hidden rounded-2xl">
-          <img
-            src="https://arvipirineos.es/wp-content/uploads/2024/08/photo_2024-08-06_14-32-39-1.jpg"
-            alt="Manos marcando un huevo ecológico con el sello de garantía de Arvipirineos"
-            class="imagen-reveal h-full w-full object-cover"
-          
-          />
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
- <section class="section-y bg-mint-light overflow-hidden">
-    <div class="container">
-      <div class="grid items-center gap-[clamp(2rem,5vw,4rem)] md:grid-cols-2">
-        
-        <div class="reveal order-2 md:order-1">
-          <span class="section-label">De la huerta</span>
-          <h2 class="section-title text-black">Los espárragos más esperados de Jaca</h2>
-          
-          <p class="text-[1.1rem] leading-[1.8] text-black/70">
-            La tierra de Santa Engracia no solo nos da huevos. Cultivamos espárragos orgánicos, tiernos y con el sabor auténtico de la huerta del Pirineo.
-          </p>
 
-          <div class="mt-10 rounded-2xl border border-black/5 bg-white p-8 shadow-sm">
-            <h3 class="font-display text-[1.3rem] text-black">¿Quieres saber cuándo asoman?</h3>
-            <p class="mt-3 text-[0.95rem] leading-[1.7] text-black/60">
+    <!-- ═══ 7. ESPÁRRAGOS — Fondo BLANCO, Imagen IZQUIERDA ═══ -->
+    <section class="section-y bg-white overflow-hidden">
+      <div class="container">
+        <div class="grid items-center gap-16 md:grid-cols-2">
+          <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
+            <img
+              src="https://arvipirineos.es/wp-content/uploads/2024/08/photo_2024-08-06_14-32-29.jpg"
+              alt="Espárragos ecológicos Arvipirineos"
+              class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+            />
+          </div>
+          <div class="reveal">
+            <span class="section-label">De la huerta del Pirineo</span>
+            <h2 class="section-title">Los espárragos más esperados de Jaca.</h2>
+            <p class="text-[1.1rem] leading-[1.8] text-black/80">
+              La tierra de Santa Engracia no solo nos da huevos. Cultivamos espárragos orgánicos, tiernos y con el sabor auténtico de la huerta del Pirineo.
+            </p>
+            <p class="mt-4 text-[1.05rem] leading-[1.8] text-black/55">
               Al ser un cultivo 100% natural, su aparición es un evento limitado. ¡Avisamos en redes sociales en cuanto empieza la cosecha!
             </p>
-            
-            <div class="mt-8 flex flex-wrap gap-4">
-              <a href="#" target="_blank" rel="noopener" class="group inline-flex items-center gap-3 rounded-full bg-black px-6 py-3 text-[0.9rem] font-bold text-white no-underline transition-all hover:-translate-y-1 hover:bg-egg hover:text-black">
+            <div class="mt-8">
+              <a href="https://www.instagram.com/arvipirineos.eco" target="_blank" rel="noopener" class="group inline-flex items-center gap-3 rounded-full bg-black px-6 py-3 text-[0.9rem] font-bold text-white no-underline transition-all hover:-translate-y-1 hover:bg-egg hover:text-black">
                 <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                Instagram
+                Síguenos en Instagram
               </a>
             </div>
           </div>
         </div>
-
-        <div class="contenedor-reveal order-1 overflow-hidden rounded-2xl md:order-2">
-          <img
-            src="https://arvipirineos.es/wp-content/uploads/2024/08/photo_2024-08-06_14-32-29.jpg"
-            alt="Espárragos ecológicos Arvipirineos"
-            class="imagen-reveal h-full w-full object-cover aspect-[4/5]"
-          />
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section-y" id="comprar">
-    <div class="container">
-      
-      <div class="reveal mb-10 max-w-[640px]">
-        <span class="section-label">Kilómetro cero</span>
-        <h2 class="section-title">Llévate el Pirineo a tu cocina</h2>
-        <p class="text-[1.05rem] leading-[1.8] text-black/60">
-          Nuestros huevos ecológicos vienen en packs de 6 y 10 unidades. No hacemos envíos, porque preferimos la venta de proximidad, reducir la huella de carbono y vernos las caras en el mercado.
-        </p>
-      </div>
 
-      <div class="grid gap-6 md:grid-cols-2">
-        
-        <div class="reveal">
-          <div class="h-full rounded-2xl border border-black/5 bg-white p-8 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_36px_rgba(16,30,32,0.06)]">
-            <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-mint/50">
-              <svg class="h-6 w-6 text-black/80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path><path d="M12 3v6"></path></svg>
-            </div>
-            <h3 class="font-display text-[1.25rem] text-black">Mercado Agroalimentario Unizar</h3>
-            <p class="mt-1 text-[0.85rem] font-bold tracking-wide uppercase text-black/40">Zaragoza</p>
-            <p class="mt-4 text-[0.95rem] leading-[1.6] text-black/60">
-              Todos los viernes, de 9:00 a 13:00.<br>Ven, charlamos y te llevas tu caja.
+    <!-- ═══ 8. PRODUCCIÓN REGENERATIVA — Imagen DERECHA ═══ -->
+    <section class="section-y bg-mint-light">
+      <div class="container">
+        <div class="grid items-center gap-16 md:grid-cols-2">
+          <div class="reveal">
+            <span class="section-label">Producción regenerativa</span>
+            <h2 class="section-title">Aquí no se tira nada.</h2>
+            <p class="text-[1.1rem] leading-[1.8] text-black/80">
+              Las gallinas compostan, el compost alimenta la huerta, y la huerta nos alimenta a todos. Producción regenerativa sin llamarla así.
+            </p>
+            <p class="mt-4 text-[1.05rem] leading-[1.8] text-black/55">
+              Al elegir nuestros huevos, apoyas una forma de hacer las cosas que tiene sentido: local, ética, sostenible.
             </p>
           </div>
-        </div>
-
-        <div class="reveal">
-          <div class="h-full rounded-2xl border border-black/5 bg-white p-8 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_36px_rgba(16,30,32,0.06)]">
-            <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-egg/15">
-              <svg class="h-6 w-6 text-black/80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-            </div>
-            <h3 class="font-display text-[1.25rem] text-black">Tiendas especializadas</h3>
-            <p class="mt-1 text-[0.85rem] font-bold tracking-wide uppercase text-black/40">Aragón</p>
-            <p class="mt-4 text-[0.95rem] leading-[1.6] text-black/60">
-              Encuéntranos en los principales comercios ecológicos y bio de Aragón.
-            </p>
+          <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
+            <img
+              src="https://arvipirineos.es/wp-content/uploads/2024/08/Sin-titulo-51.png"
+              alt="Ciclo regenerativo Arvipirineos"
+              class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+            />
           </div>
         </div>
-
       </div>
+    </section>
 
-      <div class="reveal mx-auto mt-12 max-w-[480px]">
-        <div class="overflow-hidden rounded-2xl border border-black/5 bg-mint-light shadow-sm">
-          
-          <div class="flex items-center justify-between border-b border-black/5 px-6 py-5">
-            <span class="text-[1.05rem] font-medium text-black">Caja de 6 huevos</span>
-            <span class="rounded-full bg-egg px-4 py-1 font-display text-[1.2rem] text-black">2,00 €</span>
+
+    <!-- ═══ 9. CERTIFICACIONES (NUEVA) ═══ -->
+    <section class="section-y bg-mint">
+      <div class="container max-w-3xl">
+        <div class="reveal text-center">
+          <span class="section-label !text-black/40">Garantía ecológica</span>
+          <h2 class="section-title">Nuestros huevos tienen la más alta certificación.</h2>
+          <p class="mt-4 text-black/60 mb-12">Todo nuestro trabajo tiene su reconocimiento. Lo avalan los organismos que más saben de producción ecológica en Europa.</p>
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="reveal flex flex-col items-center bg-white rounded-2xl p-8 text-center">
+            <img
+              src="https://arvipirineos.es/wp-content/uploads/2024/08/Recurso-1-100.jpg"
+              alt="Certificación CAAE"
+              class="h-20 w-auto object-contain mb-6"
+            />
+            <h3 class="font-display text-lg mb-2">Certificación CAAE</h3>
+            <p class="text-sm text-black/60">Organismo de control autorizado para la certificación de producción ecológica en España.</p>
           </div>
-          
-          <div class="flex items-center justify-between px-6 py-5">
-            <span class="text-[1.05rem] font-medium text-black">Caja de 10 huevos</span>
-            <span class="rounded-full bg-egg px-4 py-1 font-display text-[1.2rem] text-black">3,30 €</span>
+          <div class="reveal flex flex-col items-center bg-white rounded-2xl p-8 text-center">
+            <img
+              src="https://arvipirineos.es/wp-content/uploads/2024/08/Logo-agricultura-ecologica.jpg"
+              alt="Sello Eurohoja"
+              class="h-20 w-auto object-contain mb-6"
+              />
+            <h3 class="font-display text-lg mb-2">Sello Ecológico UE</h3>
+            <p class="text-sm text-black/60">Certificación de la Unión Europea que garantiza el cumplimiento de la normativa ecológica.</p>
           </div>
-
         </div>
       </div>
-
-    </div>
-  </section>
-
- <section class="border-y border-black/5 bg-white/50 py-20">
-    <div class="container">
-      <h3 class="mb-12 text-center font-display text-[0.8rem] uppercase tracking-[0.25em] text-black/40">
-        Nos has visto en
-      </h3>
-      
-      <div class="flex flex-wrap items-center justify-center gap-x-20 gap-y-12">
-        
-        <div class="group flex h-16 w-44 items-center justify-center opacity-40 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0">
-          <img 
-            src="https://arvipirineos.es/wp-content/uploads/2024/10/rural-forks.jpg" 
-            alt="Rural forks" 
-            class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-110" 
-          />
+    </section>
+   
+    <!-- ═══ NOS HAS VISTO EN ═══ -->
+    <section class="section-y bg-mint">
+      <div class="container max-w-4xl">
+        <div class="reveal text-center mb-12">
+          <span class="section-label !text-black/40">Prensa y medios</span>
+          <h2 class="section-title">Nos has visto en</h2>
         </div>
-
-        <div class="group flex h-16 w-44 items-center justify-center opacity-40 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0">
-          <img 
-            src="https://arvipirineos.es/wp-content/uploads/2024/10/logo_heraldo_face.png" 
-            alt="Heraldo de Aragón" 
-            class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-110" 
-          />
+        <div class="grid grid-cols-2 gap-8 sm:grid-cols-4 items-center">
+          <div class="reveal flex items-center justify-center p-4 brightness-0 opacity-50 transition-all duration-500 hover:brightness-100 hover:opacity-100">
+            <img src="https://arvipirineos.es/wp-content/uploads/2026/04/Ruralforks_white-150x150-1.png" alt="Rural Forks" class="h-20 w-auto object-contain" />
+          </div>
+          <div class="reveal flex items-center justify-center p-4 brightness-0 opacity-50 transition-all duration-500 hover:brightness-100 hover:opacity-100">
+            <img src="https://arvipirineos.es/wp-content/uploads/2026/04/Sin-titulo-6.png" alt="Heraldo de Aragón" class="h-20 w-auto object-contain" />
+          </div>
+          <div class="reveal flex items-center justify-center p-4 brightness-0 opacity-50 transition-all duration-500 hover:brightness-100 hover:opacity-100">
+            <img src=https://arvipirineos.es/wp-content/uploads/2026/04/Logo_Aragon_TV_2026.png alt="Aragón Televisión" class="h-20 w-auto object-contain" />
+          </div>
+          <div class="reveal flex items-center justify-center p-4 brightness-0 opacity-50 transition-all duration-500 hover:brightness-100 hover:opacity-100">
+            <img src="https://arvipirineos.es/wp-content/uploads/2024/10/logo_cam_light.png" alt="CAM: Calidad Agroalimentaria" class="h-20 w-auto object-contain" />
+          </div>
         </div>
-
-        <div class="group flex h-16 w-44 items-center justify-center opacity-40 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0">
-          <img 
-            src="https://arvipirineos.es/wp-content/uploads/2025/09/images.webp" 
-            alt="Aragón televisión" 
-            class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-110" 
-          />
-        </div>
-
-        <div class="group flex h-16 w-44 items-center justify-center opacity-40 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0">
-          <img 
-            src="https://arvipirineos.es/wp-content/uploads/2024/10/logo_cam_light.png" 
-            alt="CAM: Calidad agroalimentaria" 
-            class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-110" 
-          />
-        </div>
-
       </div>
-    </div>
-  </section>
- <section class="section-y bg-mint-light/20" id="contacto">
-    <div class="container">
-      
-      <div class="grid gap-16 lg:grid-cols-2 items-start">
-        
-        <div class="reveal">
-          <span class="section-label">Venta directa</span>
-          <h2 class="section-title">Ven a vernos al Mercado</h2>
-          <p class="mb-8 text-[1.05rem] leading-[1.8] text-black/60">
-            Cada viernes bajamos del Pirineo con los huevos recién recogidos. Si quieres el producto más fresco y charlar un rato con nosotros, este es el lugar.
+    </section>
+
+    <!-- ═══ 10. DÓNDE COMPRAR ═══ -->
+    <section class="section-y bg-mint-light" id="comprar">
+      <div class="container">
+        <div class="reveal mb-10 max-w-[640px]">
+          <span class="section-label">Del mercado a tu casa</span>
+          <h2 class="section-title">Kilómetro cero. Y a mucha honra</h2>
+          <p class="text-[1.05rem] leading-[1.8] text-black/60">
+            Nuestros huevos ecológicos vienen en packs de 6 y 10 unidades. No hacemos envíos, porque creemos que es mejor que se coman cerca de donde se ponen. Por coherencia, frescura, cercanía, calidad y menos huella de carbono. Y porque así tambien charramos y nos vemos las caras,
           </p>
-          
-          <div class="mb-8 flex flex-col gap-5">
-            <div class="flex gap-4">
-              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-sm text-[1.1rem]">📍</span>
-              <p class="text-[0.95rem] text-black/75">
-                <strong class="block text-black">Mercado Agroalimentario Unizar</strong>
-                Plaza San Francisco, 50009 Zaragoza
-              </p>
-            </div>
-            <div class="flex gap-4">
-              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-sm text-[1.1rem]">⏰</span>
-              <p class="text-[0.95rem] text-black/75">
-                <strong class="block text-black">Horario</strong>
-                Viernes de 9:00h a 13:30h
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="reveal">
+            <div class="h-full rounded-2xl border border-black/5 bg-white p-8 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_36px_rgba(16,30,32,0.06)]">
+              <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-mint/50">
+                <svg class="h-6 w-6 text-black/80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                  <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/>
+                  <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/>
+                  <path d="M12 3v6"/>
+                </svg>
+              </div>
+              <h3 class="font-display text-[1.25rem] text-black">Mercado Agroalimentario Unizar</h3>
+              <p class="mt-1 text-[0.85rem] font-bold tracking-wide uppercase text-black/40">Zaragoza</p>
+              <p class="mt-4 text-[0.95rem] leading-[1.6] text-black/60">
+                Todos los viernes, de 9:00 a 13:00.<br />Ven, charlamos y te llevas tu caja.
               </p>
             </div>
           </div>
-
-          <div class="overflow-hidden rounded-2xl border border-black/10 shadow-sm grayscale transition-all duration-700 hover:grayscale-0">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2981.639103102179!2d-0.9008076235502369!3d41.641931680167176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd59152467e412e3%3A0xaea834884a644a77!2sMercado%20Agroalimentario%20del%20Campus%20San%20Francisco!5e0!3m2!1ses!2ses!4v1776855204317!5m2!1ses!2ses" 
-              width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="reveal">
+            <div class="h-full rounded-2xl border border-black/5 bg-white p-8 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_36px_rgba(16,30,32,0.06)]">
+              <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-egg/15">
+                <svg class="h-6 w-6 text-black/80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                  <path d="M3 6h18"/>
+                  <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+              </div>
+              <h3 class="font-display text-[1.25rem] text-black">Tiendas especializadas</h3>
+              <p class="mt-1 text-[0.85rem] font-bold tracking-wide uppercase text-black/40">Aragón</p>
+              <p class="mt-4 text-[0.95rem] leading-[1.6] text-black/60">
+                Encuéntranos en los principales comercios ecológicos y bio de Aragón.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div class="reveal">
-          <div class="rounded-3xl border border-black/5 bg-white p-8 shadow-sm lg:p-10">
-            <span class="section-label">B2B & Alianzas</span>
-            <h3 class="mb-4 font-display text-[1.5rem] text-black">¿Quieres ser distribuidor o punto de venta?</h3>
-            <p class="mb-8 text-[1rem] leading-[1.7] text-black/60">
-              Buscamos tiendas que valoren el bienestar animal y el sabor auténtico. Si quieres vender Arvipirineos, escríbenos.
+        <div class="reveal mx-auto mt-12 max-w-[480px]">
+          <div class="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm">
+            <div class="flex items-center justify-between border-b border-black/5 px-6 py-5">
+              <span class="text-[1.05rem] font-medium text-black">Caja de 6 huevos</span>
+              <span class="rounded-full bg-egg px-4 py-1 font-display text-[1.2rem] text-black">2,00 €</span>
+            </div>
+            <div class="flex items-center justify-between px-6 py-5">
+              <span class="text-[1.05rem] font-medium text-black">Caja de 10 huevos</span>
+              <span class="rounded-full bg-egg px-4 py-1 font-display text-[1.2rem] text-black">3,30 €</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══ 11. CONTACTO Y LOCALIZACIÓN — Fondo BLANCO ═══ -->
+    <section class="section-y bg-white" id="contacto">
+      <div class="container">
+        <div class="grid gap-16 lg:grid-cols-2 items-start">
+
+          <div class="reveal">
+            <span class="section-label">Venta directa</span>
+            <h2 class="section-title">Ven a vernos al Mercado.</h2>
+            <p class="mb-8 text-[1.05rem] leading-[1.8] text-black/60">
+              Cada viernes bajamos del Pirineo con los huevos recién recogidos. Si quieres el producto más fresco y charlar un rato con nosotros, este es el lugar.
             </p>
-            
-            <a href="mailto:carlosarto1962@gmail.com" class="btn-primary w-full justify-center">
-              Escríbenos para colaborar
-            </a>
-            
-            <div class="mt-12">
-              <h4 class="mb-6 text-[0.8rem] font-bold uppercase tracking-[0.2em] text-black/30 text-center">Tiendas donde nos encuentras</h4>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <a href="#" target="_blank" class="group flex items-center justify-between rounded-xl border border-black/5 p-4 transition-all hover:bg-mint-light/30 hover:border-mint">
-                  <span class="text-[0.9rem] font-medium text-black/70 group-hover:text-black">Tienda Ecológica 1</span>
-                  <span class="text-black/20 group-hover:translate-x-1 transition-transform">→</span>
-                </a>
-                <a href="#" target="_blank" class="group flex items-center justify-between rounded-xl border border-black/5 p-4 transition-all hover:bg-mint-light/30 hover:border-mint">
-                  <span class="text-[0.9rem] font-medium text-black/70 group-hover:text-black">Tienda Ecológica 2</span>
-                  <span class="text-black/20 group-hover:translate-x-1 transition-transform">→</span>
-                </a>
-                <a href="#" target="_blank" class="group flex items-center justify-between rounded-xl border border-black/5 p-4 transition-all hover:bg-mint-light/30 hover:border-mint">
-                  <span class="text-[0.9rem] font-medium text-black/70 group-hover:text-black">Tienda Ecológica 3</span>
-                  <span class="text-black/20 group-hover:translate-x-1 transition-transform">→</span>
-                </a>
-                <a href="#" target="_blank" class="group flex items-center justify-between rounded-xl border border-black/5 p-4 transition-all hover:bg-mint-light/30 hover:border-mint">
-                  <span class="text-[0.9rem] font-medium text-black/70 group-hover:text-black">Tienda Ecológica 4</span>
-                  <span class="text-black/20 group-hover:translate-x-1 transition-transform">→</span>
-                </a>
+
+            <div class="mb-8 flex flex-col gap-5">
+              <div class="flex gap-4">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mint-light">
+                  <svg class="h-5 w-5 text-black/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </span>
+                <p class="text-[0.95rem] text-black/75">
+                  <strong class="block text-black">Mercado Agroalimentario Unizar</strong>
+                  Plaza San Francisco, 50009 Zaragoza
+                </p>
+              </div>
+              <div class="flex gap-4">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mint-light">
+                  <svg class="h-5 w-5 text-black/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </span>
+                <p class="text-[0.95rem] text-black/75">
+                  <strong class="block text-black">Horario</strong>
+                  Viernes de 9:00h a 13:30h
+                </p>
+              </div>
+              <div class="flex gap-4">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mint-light">
+                  <svg class="h-5 w-5 text-black/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                </span>
+                <p class="text-[0.95rem] text-black/75">
+                  <strong class="block text-black">Reserva tu caja</strong>
+                  <a href="https://wa.me/34669757675" class="text-egg hover:underline">WhatsApp: 669 757 675</a>
+                </p>
               </div>
             </div>
+
+            <div class="overflow-hidden rounded-2xl border border-black/10 shadow-sm grayscale transition-all duration-700 hover:grayscale-0">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2981.639103102179!2d-0.9008076235502369!3d41.641931680167176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd59152467e412e3%3A0xaea834884a644a77!2sMercado%20Agroalimentario%20del%20Campus%20San%20Francisco!5e0!3m2!1ses!2ses!4v1776855204317!5m2!1ses!2ses"
+                width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
           </div>
+
+          <div class="reveal">
+            <div class="rounded-3xl border border-black/5 bg-mint-light p-8 shadow-sm lg:p-10">
+              <span class="section-label">B2B & Alianzas</span>
+              <h3 class="mb-4 font-display text-[1.5rem] text-black">¿Quieres ser distribuidor o punto de venta?</h3>
+              <p class="mb-8 text-[1rem] leading-[1.7] text-black/60">
+                Buscamos tiendas que valoren el bienestar animal y el sabor auténtico. Si quieres vender Arvipirineos, escríbenos.
+              </p>
+              <a href="mailto:carlosarto1962@gmail.com" class="btn-primary w-full justify-center">
+                Escríbenos para colaborar
+              </a>
+            </div>
+          </div>
+
         </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
+
+  </div><!-- cierre del wrapper z-10 -->
 </BaseLayout>
 
-<style>
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+<style is:global>
+  details summary::-webkit-details-marker { display: none; }
 </style>

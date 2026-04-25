@@ -1,56 +1,77 @@
 ---
 // src/components/Footer.astro
+const year = new Date().getFullYear();
 ---
-<footer class="bg-black pt-16 pb-10 text-center text-white/50">
-  <div class="container">
-    <p class="font-display text-[1.6rem] tracking-tight text-white">Arvipirineos</p>
-    <p class="mt-2 text-[0.9rem] text-white/40">Avicultura artesanal desde Santa Engracia de Jaca</p>
+<footer class="bg-black pt-32 text-white">
 
-    <div class="mt-10 flex flex-col items-center gap-5">
-      <span class="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-white/20">Calidad Certificada</span>
-      <div class="flex items-center justify-center gap-10 opacity-50 transition-opacity duration-500 hover:opacity-100">
-        <img 
-          src="https://arvipirineos.es/wp-content/uploads/2024/08/Recurso-1-100.jpg" 
-          alt="Comité Aragonés de Agricultura Ecológica" 
-          class="h-11 w-auto" 
+  <!-- ── Parte superior: logo + navegación ── -->
+  <div class="container pb-16">
+    <div class="grid gap-16 md:grid-cols-[1fr_auto_auto] md:gap-20 items-start">
+
+      <!-- Logo + tagline -->
+      <div>
+        <img
+          src="https://arvipirineos.es/wp-content/uploads/2024/08/arvipirineos_etiquetafrontalblanco-scaled.webp"
+          alt="Arvipirineos"
+          class="h-20 w-auto mb-5 opacity-90"
           loading="lazy"
         />
-        <img 
-          src="https://arvipirineos.es/wp-content/uploads/2024/08/Logo-agricultura-ecologica.jpg" 
-          alt="Certificación Ecológica Unión Europea" 
-          class="h-9 w-auto" 
-          loading="lazy"
-        />
+        <p class="text-[0.95rem] leading-relaxed text-white/40 max-w-[320px]">
+          Avicultura artesanal y producción regenerativa desde Santa Engracia de Jaca.
+        </p>
+        <!-- Redes sociales -->
+      <div class="mt-6 pb-8 flex gap-3">
+          <a href="https://www.instagram.com/arvipirineos.eco" target="_blank" rel="noopener" aria-label="Instagram" class="group flex h-10 w-10 items-center justify-center rounded-full bg-white/5 transition-all duration-300 hover:bg-egg">
+            <svg class="h-5 w-5 fill-white/40 transition-colors group-hover:fill-black" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/arvipirineos" target="_blank" rel="noopener" aria-label="Facebook" class="group flex h-10 w-10 items-center justify-center rounded-full bg-white/5 transition-all duration-300 hover:bg-egg">
+            <svg class="h-5 w-5 fill-white/40 transition-colors group-hover:fill-black" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
       </div>
+
+      <!-- Columna: Contacto -->
+      <div>
+        <h4 class="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-white/20 mb-5">Contacto</h4>
+        <ul class="space-y-3 text-[0.9rem] text-white/50">
+          <li>
+            <a href="https://wa.me/34669757675" class="transition-colors hover:text-egg">669 757 675</a>
+          </li>
+          <li>
+            <a href="mailto:carlosarto1962@gmail.com" class="transition-colors hover:text-egg">carlosarto1962@gmail.com</a>
+          </li>
+          <li class="text-white/30">
+            22728 Santa Engracia de Jaca<br />Huesca, Aragón
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna: Legal -->
+      <div>
+        <h4 class="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-white/20 mb-5">Legal</h4>
+        <ul class="space-y-3 text-[0.9rem] text-white/50">
+          <li><a href="/privacidad" class="transition-colors hover:text-egg">Privacidad</a></li>
+          <li><a href="/aviso-legal" class="transition-colors hover:text-egg">Aviso legal</a></li>
+          <li><a href="/cookies" class="transition-colors hover:text-egg">Cookies</a></li>
+        </ul>
+      </div>
+
     </div>
+  </div>
 
-    <p class="mt-10 text-[0.85rem] text-white/30">22728 Santa Engracia de Jaca (Huesca)</p>
-
-    <div class="mt-6 flex justify-center gap-4">
-      <a href="#" aria-label="Instagram" class="group flex h-10 w-10 items-center justify-center rounded-full bg-white/5 transition-all hover:bg-white/10">
-        <svg class="h-5 w-5 fill-white/20 transition-colors group-hover:fill-white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-      </a>
-      <a href="#" aria-label="Facebook" class="group flex h-10 w-10 items-center justify-center rounded-full bg-white/5 transition-all hover:bg-white/10">
-        <svg class="h-5 w-5 fill-white/20 transition-colors group-hover:fill-white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      </a>
-    </div>
-
-    <div class="mt-10 flex justify-center gap-6 border-t border-white/5 pt-8 text-[0.75rem] text-white/30">
-      <a href="/privacidad" class="transition-colors hover:text-white">Privacidad</a>
-      <a href="/aviso-legal" class="transition-colors hover:text-white">Aviso legal</a>
-      <a href="/cookies" class="transition-colors hover:text-white">Cookies</a>
-    </div>
-
-    <div class="mt-8 flex flex-col items-center gap-2">
-      <p class="text-[0.65rem] tracking-[0.2em] text-white/10 uppercase">
-        © {new Date().getFullYear()} Arvipirineos — Avicultura con Alma
+  <!-- ── Parte inferior: copyright + NIF + créditos ── -->
+  <div class="border-t border-white/5">
+    <div class="container flex flex-col items-center gap-3 py-8 sm:flex-row sm:justify-between">
+      <p class="text-[0.7rem] tracking-[0.15em] text-white/20">
+        © {year} Arvipirineos · Carlos Arto Sánchez · NIF: 18.021.696-G
       </p>
       <p class="text-[0.7rem] text-white/20">
-        Un sitio web fundido por 
+        Un sitio web fundido por
         <a href="https://kente.es" target="_blank" rel="noopener" class="font-bold text-white/40 transition-colors hover:text-egg no-underline">
           Kente
         </a>
       </p>
     </div>
   </div>
+
 </footer>
