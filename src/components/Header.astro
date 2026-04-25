@@ -6,6 +6,8 @@ const navLinks = [
 ];
 const currentPath = Astro.url.pathname;
 ---
+
+<!-- Barra de navegación -->
 <nav
   id="site-nav"
   class="fixed inset-x-0 top-0 z-50 mix-blend-exclusion pointer-events-none py-5 transition-[padding] duration-500"
@@ -39,23 +41,23 @@ const currentPath = Astro.url.pathname;
         Quiero mi caja
       </a>
     </div>
-
-    <!-- Mobile toggle -->
-    <button
-      id="menu-toggle"
-      class="relative z-[70] flex h-8 w-8 flex-col items-center justify-center gap-[5px] md:hidden"
-      aria-label="Menú"
-    >
-      <span class="block h-[1.5px] w-5 bg-white transition-all duration-300" id="bar1"></span>
-      <span class="block h-[1.5px] w-5 bg-white transition-all duration-300" id="bar2"></span>
-    </button>
   </div>
 </nav>
 
-<!-- Mobile menu — FUERA del nav para que mix-blend-exclusion no le afecte -->
+<!-- Toggle hamburguesa — FUERA del nav para no heredar mix-blend-exclusion ni su z-index -->
+<button
+  id="menu-toggle"
+  class="fixed top-5 right-[clamp(1.25rem,4vw,3rem)] z-[80] flex h-8 w-8 flex-col items-center justify-center gap-[5px] md:hidden"
+  aria-label="Menú"
+>
+  <span class="block h-[1.5px] w-5 bg-white transition-all duration-300" id="bar1"></span>
+  <span class="block h-[1.5px] w-5 bg-white transition-all duration-300" id="bar2"></span>
+</button>
+
+<!-- Menú móvil — FUERA del nav para que el fondo sea opaco -->
 <div
   id="mobile-menu"
-  class="fixed inset-0 z-[60] flex translate-y-full flex-col items-center justify-center gap-8 bg-black transition-transform duration-500 ease-[cubic-bezier(0.53,0,0,1)] md:hidden"
+  class="fixed inset-0 z-[70] flex translate-y-full flex-col items-center justify-center gap-8 bg-black transition-transform duration-500 ease-[cubic-bezier(0.53,0,0,1)] md:hidden"
 >
   {navLinks.map((link) => (
     <a
@@ -114,7 +116,6 @@ const currentPath = Astro.url.pathname;
   toggle?.addEventListener("click", () => {
     open = !open;
     menu?.classList.toggle("translate-y-full");
-    // Bloquear scroll del body cuando el menú está abierto
     document.body.style.overflow = open ? "hidden" : "";
     if (open) {
       bar1!.style.transform = "rotate(45deg) translate(2px, 2px)";
@@ -125,7 +126,7 @@ const currentPath = Astro.url.pathname;
     }
   });
 
-  // Cerrar el menú al hacer click en un enlace
+  // Cerrar al hacer click en un enlace
   menu?.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
       open = false;
