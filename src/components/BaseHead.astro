@@ -3,10 +3,12 @@
 interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
 const {
   title,
   description = "Huevos ecológicos de la Jacetania. 1000 gallinas en libertad, avicultura artesanal, venta directa km 0 en Zaragoza.",
+  image = "https://arvipirineos.es/wp-content/uploads/2024/08/huevos-10.jpg",
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -16,12 +18,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
 <meta property="og:locale" content="es_ES" />
+<meta property="og:site_name" content="Arvipirineos" />
+
+<!-- Twitter / WhatsApp -->
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+
 <meta name="theme-color" content="#FFFFFF" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />

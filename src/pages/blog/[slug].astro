@@ -15,8 +15,13 @@ if (!post) return Astro.redirect("/404");
 const image = getFeaturedImage(post);
 const alt = getFeaturedImageAlt(post);
 const date = new Date(post.date).toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+const description = post.excerpt.rendered.replace(/<[^>]*>/g, "").trim();
 ---
-<BaseLayout title={`${post.title.rendered} — Arvipirineos`}>
+<BaseLayout
+  title={`${post.title.rendered} — Arvipirineos`}
+  description={description}
+  image={image}
+>
   <article class="section-y pt-36 lg:pt-44">
     <div class="container mx-auto max-w-3xl">
       <a href="/blog" class="text-[0.72rem] font-semibold uppercase tracking-[0.15em] text-black/40 no-underline transition-colors hover:text-black">← Volver al blog</a>

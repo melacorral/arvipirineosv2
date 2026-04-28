@@ -10,12 +10,13 @@ import "@/styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  image?: string | null;
 }
-const { title, description } = Astro.props;
+const { title, description, image } = Astro.props;
 ---
 <html lang="es">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead title={title} description={description} image={image ?? undefined} />
     <GoogleAnalytics id="G-L9SLY17ZWN" />
     <slot name="head" />
   </head>
@@ -46,7 +47,6 @@ const { title, description } = Astro.props;
       gsap.ticker.lagSmoothing(0);
 
       // ── Reveal de textos y bloques ──
-      // toggleActions: play none none reverse → se activa al bajar, se revierte al subir
       gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) => {
         gsap.fromTo(
           el,
