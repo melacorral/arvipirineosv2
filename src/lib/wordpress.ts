@@ -1,5 +1,5 @@
 // src/lib/wordpress.ts
-const WP_URL = import.meta.env.WORDPRESS_API_URL || "https://kthulu.arvipirineos.es/wp-json/wp/v2";
+const WP_URL = "https://kthulu.arvipirineos.es/wp-json/wp/v2";
 
 export interface WPPost {
   id: number;
