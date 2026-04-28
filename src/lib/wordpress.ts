@@ -25,7 +25,7 @@ export interface WPPost {
 }
 
 export async function getPosts(perPage = 12): Promise<WPPost[]> {
-  const url = `${WP_URL}/posts?per_page=${perPage}&_embed&_fields=id,slug,title,excerpt,date,featured_media,_embedded`;
+  const url = `${WP_URL}/posts?per_page=${perPage}&_embed`;
   console.log("[WP] Fetching:", url);
   try {
     const res = await fetch(url);
