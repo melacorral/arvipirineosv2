@@ -1,7 +1,16 @@
 ---
 // src/pages/blog/[slug].astro
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getPosts, getPostBySlug, getFeaturedImage, getFeaturedImageAlt } from "@/lib/wordpress";
+import {
+  getPosts,
+  getPostBySlug,
+  getFeaturedImage,
+  getFeaturedImageAlt,
+  getPostCategories,
+  getPostTags,
+  getAdjacentPosts,
+  getRelatedPosts,
+} from "@/lib/wordpress";
 
 export async function getStaticPaths() {
   const posts = await getPosts(100);
@@ -12,27 +21,161 @@ const { slug } = Astro.params;
 const post = await getPostBySlug(slug!);
 if (!post) return Astro.redirect("/404");
 
+const allPosts = await getPosts(100);
 const image = getFeaturedImage(post);
 const alt = getFeaturedImageAlt(post);
-const date = new Date(post.date).toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+const categories = getPostCategories(post);
+const tags = getPostTags(post);
+const { prev, next } = getAdjacentPosts(allPosts, slug!);
+const related = getRelatedPosts(allPosts, post, 3);
+const date = new Date(post.date).toLocaleDateString("es-ES", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
 const description = post.excerpt.rendered.replace(/<[^>]*>/g, "").trim();
 ---
-<BaseLayout
-  title={`${post.title.rendered} — Arvipirineos`}
-  description={description}
-  image={image}
->
+<BaseLayout title={`${post.title.rendered} — Arvipirineos`} description={description} image={image}>
   <article class="section-y pt-36 lg:pt-44">
-    <div class="container mx-auto max-w-3xl">
-      <a href="/blog" class="text-[0.72rem] font-semibold uppercase tracking-[0.15em] text-black/40 no-underline transition-colors hover:text-black">← Volver al blog</a>
-      <time class="mt-8 block text-[0.72rem] font-semibold uppercase tracking-[0.15em] text-black/35">{date}</time>
-      <h1 class="mt-3 font-display text-[clamp(1.8rem,4vw,2.8rem)] leading-[1.2] text-black" set:html={post.title.rendered} />
-      {image && (
-        <div class="mt-8 aspect-[16/9] overflow-hidden rounded-lg">
-          <img src={image} alt={alt} class="h-full w-full object-cover" />
+    <div class="container">
+
+      <!-- Cabecera del post -->
+      <div class="max-w-3xl mx-auto">
+        <a href="/blog" class="text-[0.72rem] font-semibold uppercase tracking-[0.15em] text-black/40 no-underline transition-colors hover:text-black">&larr; Volver al blog</a>
+
+        {categories.length > 0 && (
+          <div class="mt-6 flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <a href={`/blog/categoria/${cat.slug}`} class="rounded-full bg-mint px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-wider text-black/70 no-underline transition-colors hover:bg-egg hover:text-black">
+                {cat.name}
+              </a>
+            ))}
+          </div>
+        )}
+
+        <time class="mt-4 block text-[0.72rem] font-semibold uppercase tracking-[0.15em] text-black/35">{date}</time>
+        <h1 class="mt-3 font-display text-[clamp(1.8rem,4vw,2.8rem)] leading-[1.2] text-black" set:html={post.title.rendered} />
+
+        {image && (
+          <div class="mt-8 aspect-[16/9] overflow-hidden rounded-2xl">
+            <img src={image} alt={alt} class="h-full w-full object-cover" />
+          </div>
+        )}
+      </div>
+
+      <!-- Contenido + Sidebar -->
+      <div class="mt-12 grid gap-12 lg:grid-cols-[1fr_280px] max-w-5xl mx-auto">
+
+        <!-- Contenido principal -->
+        <div>
+          <!-- TOC movil (visible solo en movil) -->
+          <nav id="toc-mobile" class="mb-10 rounded-2xl bg-mint-light p-6 lg:hidden">
+            <h3 class="mb-3 text-[0.72rem] font-semibold uppercase tracking-[0.15em] text-black/40">En este articulo</h3>
+            <ul id="toc-list-mobile" class="space-y-2 text-[0.9rem] text-black/60">
+            </ul>
+          </nav>
+
+          <div id="post-content" class="wp-content text-[1.05rem] leading-[1.8] text-black/65" set:html={post.content.rendered} />
+
+          {tags.length > 0 && (
+            <div class="mt-10 flex flex-wrap items-center gap-2 border-t border-black/5 pt-8">
+              <span class="text-[0.72rem] font-semibold uppercase tracking-[0.15em] text-black/30 mr-2">Etiquetas:</span>
+              {tags.map((tag) => (
+                <a href={`/blog/etiqueta/${tag.slug}`} class="rounded-full border border-black/10 px-3 py-1 text-[0.75rem] text-black/50 no-underline transition-colors hover:border-egg hover:text-black">
+                  {tag.name}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
+
+        <!-- Sidebar desktop (sticky) -->
+        <aside class="hidden lg:block">
+          <div class="sticky top-32">
+            <nav class="rounded-2xl bg-mint-light p-6">
+              <h3 class="mb-3 text-[0.72rem] font-semibold uppercase tracking-[0.15em] text-black/40">En este articulo</h3>
+              <ul id="toc-list-desktop" class="space-y-2 text-[0.9rem] text-black/60">
+              </ul>
+            </nav>
+          </div>
+        </aside>
+
+      </div>
+
+      <!-- Navegacion anterior / siguiente -->
+      <nav class="mt-16 max-w-3xl mx-auto grid gap-6 sm:grid-cols-2 border-t border-black/5 pt-10">
+        {prev ? (
+          <a href={`/blog/${prev.slug}`} class="group flex flex-col rounded-2xl bg-mint-light p-6 no-underline transition-all hover:-translate-y-1">
+            <span class="text-[0.7rem] font-semibold uppercase tracking-wider text-black/30">&larr; Anterior</span>
+            <span class="mt-2 font-display text-[1.1rem] leading-snug text-black group-hover:text-egg" set:html={prev.title.rendered} />
+          </a>
+        ) : <div />}
+        {next ? (
+          <a href={`/blog/${next.slug}`} class="group flex flex-col rounded-2xl bg-mint-light p-6 no-underline text-right transition-all hover:-translate-y-1">
+            <span class="text-[0.7rem] font-semibold uppercase tracking-wider text-black/30">Siguiente &rarr;</span>
+            <span class="mt-2 font-display text-[1.1rem] leading-snug text-black group-hover:text-egg" set:html={next.title.rendered} />
+          </a>
+        ) : <div />}
+      </nav>
+
+      <!-- Posts relacionados -->
+      {related.length > 0 && (
+        <section class="mt-16 max-w-5xl mx-auto border-t border-black/5 pt-12">
+          <h2 class="mb-8 text-center font-display text-[1.5rem] text-black">Tambien te puede interesar</h2>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {related.map((rel) => {
+              const relImage = getFeaturedImage(rel);
+              const relAlt = getFeaturedImageAlt(rel);
+              return (
+                <a href={`/blog/${rel.slug}`} class="group block rounded-2xl bg-mint-light overflow-hidden no-underline transition-all hover:-translate-y-1">
+                  {relImage ? (
+                    <div class="aspect-[4/3] overflow-hidden">
+                      <img src={relImage} alt={relAlt} class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
+                    </div>
+                  ) : (
+                    <div class="flex aspect-[4/3] items-center justify-center bg-mint text-[0.85rem] text-black/30">Sin imagen</div>
+                  )}
+                  <div class="p-5">
+                    <h3 class="font-display text-[1.1rem] leading-snug text-black group-hover:text-egg" set:html={rel.title.rendered} />
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </section>
       )}
-      <div class="wp-content mt-10 text-[1.05rem] leading-[1.8] text-black/65" set:html={post.content.rendered} />
+
     </div>
   </article>
+
+  <script>
+    function buildTOC() {
+      const content = document.getElementById("post-content");
+      if (!content) return;
+
+      const headings = content.querySelectorAll("h2, h3");
+      if (headings.length === 0) {
+        document.getElementById("toc-mobile")?.remove();
+        document.querySelector("aside")?.remove();
+        return;
+      }
+
+      const tocMobile = document.getElementById("toc-list-mobile");
+      const tocDesktop = document.getElementById("toc-list-desktop");
+
+      headings.forEach((heading, i) => {
+        const id = `heading-${i}`;
+        heading.id = id;
+
+        const isH3 = heading.tagName === "H3";
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="#${id}" class="block no-underline transition-colors hover:text-black ${isH3 ? "pl-4 text-[0.85rem]" : "font-medium"}">${heading.textContent}</a>`;
+
+        tocMobile?.appendChild(li.cloneNode(true));
+        tocDesktop?.appendChild(li.cloneNode(true));
+      });
+    }
+
+    buildTOC();
+  </script>
 </BaseLayout>

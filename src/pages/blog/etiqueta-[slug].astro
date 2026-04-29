@@ -1,0 +1,53 @@
+---
+// src/pages/blog/etiqueta/[slug].astro
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getTags, getPostsByTag, getFeaturedImage, getFeaturedImageAlt } from "@/lib/wordpress";
+
+export async function getStaticPaths() {
+  const tags = await getTags();
+  return tags.map((tag) => ({
+    params: { slug: tag.slug },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const posts = await getPostsByTag(tag.id);
+---
+<BaseLayout title={`${tag.name} — Blog Arvipirineos`}>
+  <section class="section-y pt-36 lg:pt-44">
+    <div class="container">
+      <div class="reveal mb-10 max-w-3xl">
+        <a href="/blog" class="text-[0.72rem] font-semibold uppercase tracking-[0.15em] text-black/40 no-underline transition-colors hover:text-black">&larr; Volver al blog</a>
+        <span class="section-label mt-6">Etiqueta</span>
+        <h1 class="section-title">{tag.name}</h1>
+      </div>
+
+      {posts.length === 0 ? (
+        <p class="text-[0.95rem] text-black/50">No hay publicaciones con esta etiqueta.</p>
+      ) : (
+        <div class="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => {
+            const image = getFeaturedImage(post);
+            const alt = getFeaturedImageAlt(post);
+            const date = new Date(post.date).toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+            return (
+              <a href={`/blog/${post.slug}`} class="reveal group block no-underline">
+                {image ? (
+                  <div class="aspect-[4/3] overflow-hidden rounded-2xl bg-mint-light">
+                    <img src={image} alt={alt} class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]" loading="lazy" />
+                  </div>
+                ) : (
+                  <div class="flex aspect-[4/3] items-center justify-center rounded-2xl bg-mint-light text-[0.85rem] text-black/30">Sin imagen</div>
+                )}
+                <time class="mt-4 block text-[0.72rem] font-semibold uppercase tracking-[0.15em] text-black/35">{date}</time>
+                <h2 class="mt-1.5 font-display text-[1.3rem] leading-[1.25] text-black transition-colors group-hover:text-egg" set:html={post.title.rendered} />
+                <div class="mt-1.5 line-clamp-3 text-[0.9rem] leading-[1.7] text-black/55" set:html={post.excerpt.rendered} />
+              </a>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
