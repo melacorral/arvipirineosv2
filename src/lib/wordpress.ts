@@ -33,7 +33,9 @@ export async function getPosts(perPage = 12): Promise<WPPost[]> {
     const res = await fetch(url, { headers });
     console.log("[WP] Status:", res.status);
     if (!res.ok) return [];
-    const posts = await res.json();
+    const text = await res.text();
+    console.log("[WP] Response body (first 200 chars):", text.substring(0, 200));
+    const posts = JSON.parse(text);
     console.log("[WP] Posts found:", posts.length);
     return posts;
   } catch (err) {
