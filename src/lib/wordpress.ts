@@ -64,6 +64,7 @@ export function getFeaturedImageAlt(post: WPPost): string {
 } 
 */
 // src/lib/wordpress.ts
+// src/lib/wordpress.ts
 const WP_URL = "https://kthulu.arvipirineos.es/wp-json/wp/v2";
 
 const headers = { "Accept": "application/json" };
@@ -121,12 +122,24 @@ export async function getPosts(perPage = 100): Promise<WPPost[]> {
   try {
     const res = await fetch(url, { headers });
     console.log("[WP] Status:", res.status);
+    console.log("[WP] Content-Type:", res.headers.get("content-type"));
     if (!res.ok) return [];
-    const posts = await res.json();
-    console.log("[WP] Posts found:", Array.isArray(posts) ? posts.length : "not an array");
-    return Array.isArray(posts) ? posts : [];
+    const text = await res.text();
+    console.log("[WP] Body start:", text.substring(0, 300));
+    try {
+      const posts = JSON.parse(text);
+      console.log("[WP] Parsed type:", typeof posts, "isArray:", Array.isArray(posts));
+      if (Array.isArray(posts)) {
+        console.log("[WP] Posts found:", posts.length);
+        return posts;
+      }
+      return [];
+    } catch (parseErr) {
+      console.log("[WP] JSON parse error:", parseErr);
+      return [];
+    }
   } catch (err) {
-    console.log("[WP] ERROR:", err);
+    console.log("[WP] Fetch ERROR:", err);
     return [];
   }
 }
@@ -135,8 +148,11 @@ export async function getPostBySlug(slug: string): Promise<WPPost | null> {
   try {
     const res = await fetch(`${WP_URL}/posts?slug=${slug}&_embed`, { headers });
     if (!res.ok) return null;
-    const posts = await res.json();
-    return Array.isArray(posts) && posts.length > 0 ? posts[0] : null;
+    const text = await res.text();
+    try {
+      const posts = JSON.parse(text);
+      return Array.isArray(posts) && posts.length > 0 ? posts[0] : null;
+    } catch { return null; }
   } catch { return null; }
 }
 
@@ -144,8 +160,11 @@ export async function getPostsByCategory(categoryId: number, perPage = 100): Pro
   try {
     const res = await fetch(`${WP_URL}/posts?categories=${categoryId}&per_page=${perPage}&_embed`, { headers });
     if (!res.ok) return [];
-    const posts = await res.json();
-    return Array.isArray(posts) ? posts : [];
+    const text = await res.text();
+    try {
+      const posts = JSON.parse(text);
+      return Array.isArray(posts) ? posts : [];
+    } catch { return []; }
   } catch { return []; }
 }
 
@@ -153,8 +172,11 @@ export async function getPostsByTag(tagId: number, perPage = 100): Promise<WPPos
   try {
     const res = await fetch(`${WP_URL}/posts?tags=${tagId}&per_page=${perPage}&_embed`, { headers });
     if (!res.ok) return [];
-    const posts = await res.json();
-    return Array.isArray(posts) ? posts : [];
+    const text = await res.text();
+    try {
+      const posts = JSON.parse(text);
+      return Array.isArray(posts) ? posts : [];
+    } catch { return []; }
   } catch { return []; }
 }
 
@@ -164,8 +186,11 @@ export async function getCategories(): Promise<WPCategory[]> {
   try {
     const res = await fetch(`${WP_URL}/categories?per_page=100&hide_empty=true`, { headers });
     if (!res.ok) return [];
-    const cats = await res.json();
-    return Array.isArray(cats) ? cats : [];
+    const text = await res.text();
+    try {
+      const cats = JSON.parse(text);
+      return Array.isArray(cats) ? cats : [];
+    } catch { return []; }
   } catch { return []; }
 }
 
@@ -173,8 +198,11 @@ export async function getTags(): Promise<WPTag[]> {
   try {
     const res = await fetch(`${WP_URL}/tags?per_page=100&hide_empty=true`, { headers });
     if (!res.ok) return [];
-    const tags = await res.json();
-    return Array.isArray(tags) ? tags : [];
+    const text = await res.text();
+    try {
+      const tags = JSON.parse(text);
+      return Array.isArray(tags) ? tags : [];
+    } catch { return []; }
   } catch { return []; }
 }
 
