@@ -1,6 +1,8 @@
 // src/lib/wordpress.ts
 const WP_URL = "https://kthulu.arvipirineos.es/wp-json/wp/v2";
 
+const headers = { "Accept": "application/json" };
+
 export interface WPPost {
   id: number;
   slug: string;
@@ -28,7 +30,7 @@ export async function getPosts(perPage = 12): Promise<WPPost[]> {
   const url = `${WP_URL}/posts?per_page=${perPage}&_embed`;
   console.log("[WP] Fetching:", url);
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { headers });
     console.log("[WP] Status:", res.status);
     if (!res.ok) return [];
     const posts = await res.json();
@@ -42,7 +44,7 @@ export async function getPosts(perPage = 12): Promise<WPPost[]> {
 
 export async function getPostBySlug(slug: string): Promise<WPPost | null> {
   try {
-    const res = await fetch(`${WP_URL}/posts?slug=${slug}&_embed`);
+    const res = await fetch(`${WP_URL}/posts?slug=${slug}&_embed`, { headers });
     if (!res.ok) return null;
     const posts = await res.json();
     return posts.length > 0 ? posts[0] : null;
