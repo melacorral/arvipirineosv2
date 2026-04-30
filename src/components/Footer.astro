@@ -1,5 +1,8 @@
 ---
 // src/components/Footer.astro
+import { Image } from "astro:assets";
+import logoblanco from "@/assets/logoblanco.webp";
+
 const year = new Date().getFullYear();
 ---
 <footer class="bg-black pt-32 text-white">
@@ -10,9 +13,11 @@ const year = new Date().getFullYear();
 
       <!-- Logo + tagline -->
       <div class="flex flex-col items-center md:items-start">
-        <img
-          src="https://kthulu.arvipirineos.es/wp-content/uploads/2024/08/arvipirineos_etiquetafrontalblanco-scaled.webp"
+        <Image
+          src={logoblanco}
           alt="Arvipirineos"
+          width={280}
+          height={91}
           class="h-20 w-auto mb-5 opacity-90"
           loading="lazy"
         />

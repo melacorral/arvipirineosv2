@@ -1,6 +1,21 @@
 ---
 // src/pages/index.astro
+import { Image } from "astro:assets";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+
+// Importar todas las imágenes locales
+import pepaycarlos from "@/assets/pepaycarlos.webp";
+import niebla from "@/assets/niebla.webp";
+import arvipirineoskn1 from "@/assets/arvipirineoskn1.webp";
+import sellohuevos from "@/assets/sellohuevos.webp";
+import esparragoscerca from "@/assets/esparragoscerca.webp";
+import cosechandoesparragos from "@/assets/cosechandoesparragos.webp";
+import selloCAAE from "@/assets/CAAE.webp";
+import selloEurohoja from "@/assets/Logo-agricultura-ecologica.webp";
+import logoRuralforks from "@/assets/Ruralforks_white-150x150-1.webp";
+import logoHeraldo from "@/assets/heraldo.webp";
+import logoAragonTV from "@/assets/Logo_Aragon_TV_2026.webp";
+import logoCAM from "@/assets/logo_cam_light.webp";
 
 const title = "Arvipirineos — Huevos ecológicos del Pirineo Aragonés";
 const description =
@@ -108,6 +123,7 @@ const description =
       preload="none"
       poster="https://res.cloudinary.com/dvhmkrsmh/video/upload/so_0,q_auto,f_auto,w_1280/Gallinas-camperas-criadas-en-libertad_oujhhk.jpg"
       class="absolute inset-0 h-full w-full object-cover opacity-60"
+      aria-hidden="true"
     >
       <source src="https://res.cloudinary.com/dvhmkrsmh/video/upload/q_auto/f_auto/v1777537322/Gallinas-camperas-criadas-en-libertad_oujhhk.mp4" type="video/mp4" />
     </video>
@@ -139,10 +155,12 @@ const description =
       <div class="container">
         <div class="grid items-center gap-16 md:grid-cols-2">
           <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
-            <img
-              src="https://kthulu.arvipirineos.es/wp-content/uploads/2026/04/photo_2026-04-21_11-40-03.jpg"
+            <Image
+              src={pepaycarlos}
               alt="Pepa y Carlos en la granja Arvipirineos"
+              width={600}
               class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+              loading="lazy"
             />
           </div>
           <div class="reveal">
@@ -176,10 +194,12 @@ const description =
             </p>
           </div>
           <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
-            <img
-              src="https://kthulu.arvipirineos.es/wp-content/uploads/2026/04/photo_2026-04-21_12-43-50.jpg"
+            <Image
+              src={niebla}
               alt="Niebla, la pastora de Arvipirineos"
+              width={600}
               class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+              loading="lazy"
             />
           </div>
         </div>
@@ -187,14 +207,14 @@ const description =
     </section>
 
 
-    <!-- ═══ 4. BIENESTAR ANIMAL —  ═══ -->
+    <!-- ═══ 4. BIENESTAR ANIMAL ═══ -->
     <section class="section-y bg-mint">
       <div class="container">
         <div class="reveal mb-12 text-center max-w-3xl mx-auto">
            <span class="section-label !text-black/40">Bienestar real</span>
              <p class="font-display text-[clamp(1.8rem,4vw,2.8rem)] leading-[1.2] text-black mb-2">Menos Dubai, más Pirineo.</p>
-            <h2 class="text-[1.1rem] font-semibold text-black/50">Gallinas en libertad: así viven las nuestras</h2>   
-          <p class="mt-4 text-black/60 italic leading-relaxed"Si nuestras gallinas fuesen personas, vivirían de enseñar a otros a vivir como ellas: comida ecológica, aire limpio, siestas largas. No les dejamos el móvil para que no se les suba la fama a la cresta.</p>
+            <h2 class="text-[1.1rem] font-semibold text-black/50">Gallinas en libertad: así viven las nuestras</h2>
+          <p class="mt-4 text-black/60 italic leading-relaxed">"Si nuestras gallinas fuesen personas, vivirían de enseñar a otros a vivir como ellas: comida ecológica, aire limpio, siestas largas. No les dejamos el móvil para que no se les suba la fama a la cresta."</p>
         </div>
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
@@ -254,15 +274,17 @@ const description =
     </section>
 
 
-   <!-- ═══ 5. PRODUCCIÓN LIMITADA  — Imagen IZQUIERDA ═══ -->
+   <!-- ═══ 5. PRODUCCIÓN LIMITADA — Imagen IZQUIERDA ═══ -->
     <section class="section-y bg-mint-light">
       <div class="container">
         <div class="grid items-center gap-16 md:grid-cols-2">
           <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
-            <img
-              src="https://kthulu.arvipirineos.es/wp-content/uploads/2026/04/arvipirineoskn1-scaled.webp"
+            <Image
+              src={arvipirineoskn1}
               alt="Huevos ecológicos de Aragón Arvipirineos"
+              width={600}
               class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+              loading="lazy"
             />
           </div>
           <div class="reveal">
@@ -283,7 +305,7 @@ const description =
     </section>
 
 
-    <!-- ═══ 6. POR QUÉ SABEN DIFERENTE  — Imagen DERECHA ═══ -->
+    <!-- ═══ 6. POR QUÉ SABEN DIFERENTE — Imagen DERECHA ═══ -->
     <section class="section-y bg-mint-light">
       <div class="container">
         <div class="grid items-center gap-16 md:grid-cols-2">
@@ -316,10 +338,12 @@ const description =
             </div>
           </div>
           <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
-            <img
-              src="https://kthulu.arvipirineos.es/wp-content/uploads/2024/08/photo_2024-08-06_14-32-39-1.jpg"
+            <Image
+              src={sellohuevos}
               alt="Yema naranja de huevo ecológico Arvipirineos"
+              width={600}
               class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+              loading="lazy"
             />
           </div>
         </div>
@@ -332,10 +356,12 @@ const description =
       <div class="container">
         <div class="grid items-center gap-16 md:grid-cols-2">
           <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
-            <img
-              src="https://kthulu.arvipirineos.es/wp-content/uploads/2024/08/photo_2024-08-06_14-32-29.jpg"
+            <Image
+              src={esparragoscerca}
               alt="Espárragos ecológicos Arvipirineos"
+              width={600}
               class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+              loading="lazy"
             />
           </div>
           <div class="reveal">
@@ -374,10 +400,12 @@ const description =
             </p>
           </div>
           <div class="contenedor-reveal-center rounded-3xl overflow-hidden">
-            <img
-              src="https://kthulu.arvipirineos.es/wp-content/uploads/2024/08/Sin-titulo-51.png"
+            <Image
+              src={cosechandoesparragos}
               alt="Ciclo regenerativo Arvipirineos"
+              width={600}
               class="imagen-reveal-center h-full w-full object-cover aspect-[4/5]"
+              loading="lazy"
             />
           </div>
         </div>
@@ -385,7 +413,7 @@ const description =
     </section>
 
 
-    <!-- ═══ 9. CERTIFICACIONES  ═══ -->
+    <!-- ═══ 9. CERTIFICACIONES ═══ -->
     <section class="section-y bg-mint">
       <div class="container max-w-3xl">
         <div class="reveal text-center">
@@ -395,27 +423,32 @@ const description =
         </div>
         <div class="grid gap-6 sm:grid-cols-2">
           <div class="reveal flex flex-col items-center bg-white rounded-2xl p-8 text-center">
-            <img
-              src="https://kthulu.arvipirineos.es/wp-content/uploads/2024/08/Recurso-1-100.jpg"
-              alt="Certificación CAAE"
-              class="h-20 w-auto object-contain mb-6"
-            />
+            <Image
+  src={selloCAAE}
+  alt="Certificación CAAE"
+  width={160}
+  class="h-20 w-auto object-contain mb-6"
+  loading="lazy"
+/>
             <h3 class="font-display text-lg mb-2">Certificación CAAE</h3>
             <p class="text-sm text-black/60">Organismo de control autorizado para la certificación de producción ecológica en España.</p>
           </div>
           <div class="reveal flex flex-col items-center bg-white rounded-2xl p-8 text-center">
-            <img
-              src="https://kthulu.arvipirineos.es/wp-content/uploads/2024/08/Logo-agricultura-ecologica.jpg"
+            <Image
+              src={selloEurohoja}
               alt="Sello Eurohoja"
+              width={160}
+              height={80}
               class="h-20 w-auto object-contain mb-6"
-              />
+              loading="lazy"
+            />
             <h3 class="font-display text-lg mb-2">Sello Ecológico UE</h3>
             <p class="text-sm text-black/60">Certificación de la Unión Europea que garantiza el cumplimiento de la normativa ecológica.</p>
           </div>
         </div>
       </div>
     </section>
-   
+
     <!-- ═══ NOS HAS VISTO EN ═══ -->
     <section class="section-y bg-mint">
       <div class="container max-w-4xl">
@@ -425,20 +458,21 @@ const description =
         </div>
         <div class="grid grid-cols-2 gap-8 sm:grid-cols-4 items-center">
           <div class="reveal flex items-center justify-center p-4 brightness-0 opacity-50 transition-all duration-500 hover:brightness-100 hover:opacity-100">
-            <img src="https://kthulu.arvipirineos.es/wp-content/uploads/2026/04/Ruralforks_white-150x150-1.png" alt="Rural Forks" class="h-20 w-auto object-contain" />
+            <Image src={logoRuralforks} alt="Rural Forks" width={150} height={150} class="h-20 w-auto object-contain" loading="lazy" />
           </div>
           <div class="reveal flex items-center justify-center p-4 brightness-0 opacity-50 transition-all duration-500 hover:brightness-100 hover:opacity-100">
-            <img src="https://kthulu.arvipirineos.es/wp-content/uploads/2026/04/Sin-titulo-6.png" alt="Heraldo de Aragón" class="h-20 w-auto object-contain" />
+            <Image src={logoHeraldo} alt="Heraldo de Aragón" width={242} height={64} class="h-20 w-auto object-contain" loading="lazy" />
           </div>
           <div class="reveal flex items-center justify-center p-4 brightness-0 opacity-50 transition-all duration-500 hover:brightness-100 hover:opacity-100">
-            <img src="https://kthulu.arvipirineos.es/wp-content/uploads/2026/04/Logo_Aragon_TV_2026.png" alt="Aragón Televisión" class="h-20 w-auto object-contain" />
+            <Image src={logoAragonTV} alt="Aragón Televisión" width={140} height={140} class="h-20 w-auto object-contain" loading="lazy" />
           </div>
           <div class="reveal flex items-center justify-center p-4 brightness-0 opacity-50 transition-all duration-500 hover:brightness-100 hover:opacity-100">
-            <img src="https://kthulu.arvipirineos.es/wp-content/uploads/2024/10/logo_cam_light.png" alt="CAM: Calidad Agroalimentaria" class="h-20 w-auto object-contain" />
+            <Image src={logoCAM} alt="CAM: Calidad Agroalimentaria" width={242} height={41} class="h-20 w-auto object-contain" loading="lazy" />
           </div>
         </div>
       </div>
     </section>
+
     <!-- ═══ PREGUNTAS FRECUENTES — FAQ con Schema ═══ -->
     <section class="section-y bg-mint-light" id="faqs">
       <div class="container max-w-4xl">
@@ -686,8 +720,9 @@ const description =
 
             <div class="overflow-hidden rounded-2xl border border-black/10 shadow-sm grayscale transition-all duration-700 hover:grayscale-0">
               <iframe
+                title="Mapa de ubicación del Mercado Agroalimentario Unizar en Zaragoza"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2981.639103102179!2d-0.9008076235502369!3d41.641931680167176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd59152467e412e3%3A0xaea834884a644a77!2sMercado%20Agroalimentario%20del%20Campus%20San%20Francisco!5e0!3m2!1ses!2ses!4v1776855204317!5m2!1ses!2ses"
-                width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                width="100%" height="300" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
           </div>
 

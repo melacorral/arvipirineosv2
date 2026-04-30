@@ -1,5 +1,8 @@
 ---
 // src/components/Header.astro
+import { Image } from "astro:assets";
+import logo from "@/assets/logo.webp";
+
 const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/blog", label: "El blog de los Huevos" },
@@ -14,9 +17,11 @@ const currentPath = Astro.url.pathname;
 >
   <div class="container flex items-center justify-between pointer-events-auto">
     <a href="/" class="no-underline">
-      <img
-        src="https://kthulu.arvipirineos.es/wp-content/uploads/2024/08/cropped-arvipirineos_etiquetafrontal-scaled-1.webp"
+      <Image
+        src={logo}
         alt="Arvipirineos"
+        width={214}
+        height={70}
         class="h-10 w-auto brightness-0 invert lg:h-12"
       />
     </a>
