@@ -11,12 +11,13 @@ interface Props {
   title: string;
   description?: string;
   image?: string | null;
+  noindex?: boolean;
 }
-const { title, description, image } = Astro.props;
+const { title, description, image, noindex } = Astro.props;
 ---
 <html lang="es">
   <head>
-    <BaseHead title={title} description={description} image={image ?? undefined} />
+    <BaseHead title={title} description={description} image={image ?? undefined} noindex={noindex} />
     <GoogleAnalytics id="G-L9SLY17ZWN" />
     <slot name="head" />
   </head>
