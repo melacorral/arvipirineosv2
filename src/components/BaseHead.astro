@@ -1,5 +1,7 @@
 ---
 // src/components/BaseHead.astro
+import { Font } from "astro:assets";
+
 interface Props {
   title: string;
   description?: string;
@@ -16,6 +18,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<Font cssVariable="--font-heading" preload />
+<Font cssVariable="--font-sans" />
 <meta name="generator" content={Astro.generator} />
 <title>{title}</title>
 {noindex && <meta name="robots" content="noindex, follow" />}

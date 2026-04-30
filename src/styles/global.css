@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap");
 @import "tailwindcss";
 @theme {
   /* ── Paleta COCOA + Egg ── */
@@ -9,8 +8,8 @@
   --color-egg: #F5B800;
   --color-egg-light: #FDD44B;
 
-  --font-display: "DM Serif Display", Georgia, serif;
-  --font-body: "Source Sans 3", "Segoe UI", sans-serif;
+  --font-display: var(--font-heading);
+  --font-body: var(--font-sans);
 
   /* ── Añadido Design System ── */
   --radius-xl: 12px;
