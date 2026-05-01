@@ -49,7 +49,44 @@ export interface WPPost {
   };
 }
 
-// ── Posts ── 
+export async function getPosts(perPage = 100): Promise<WPPost[]> {
+  const url = `${WP_URL}/posts?per_page=${perPage}&_embed`;
+
+  console.log("[WP] Fetching:", url);
+
+  const res = await fetch(url, {
+    headers: {
+      ...headers,
+      "User-Agent": "ArvipirineosAstroBuild/1.0",
+    },
+  });
+
+  const contentType = res.headers.get("content-type") ?? "";
+  const text = await res.text();
+
+  console.log("[WP] Status:", res.status, res.statusText);
+  console.log("[WP] Content-Type:", contentType);
+  console.log("[WP] Body start:", text.substring(0, 500));
+
+  if (!res.ok) {
+    throw new Error(`[WP] getPosts failed: ${res.status} ${res.statusText}. ${text.substring(0, 500)}`);
+  }
+
+  if (!contentType.includes("application/json")) {
+    throw new Error(`[WP] getPosts expected JSON, got ${contentType}. ${text.substring(0, 500)}`);
+  }
+
+  const posts = JSON.parse(text);
+
+  if (!Array.isArray(posts)) {
+    throw new Error(`[WP] getPosts expected array, got ${typeof posts}. ${text.substring(0, 500)}`);
+  }
+
+  console.log("[WP] Posts found:", posts.length);
+
+  return posts;
+}
+/*// ── Posts ── 
  
   export async function getPosts(perPage = 100): Promise<WPPost[]> {
   const url = `${WP_URL}/posts?per_page=${perPage}&_embed`;
@@ -115,7 +152,7 @@ export async function getPostsByTag(tagId: number, perPage = 100): Promise<WPPos
   } catch { return []; }
 } 
 
-// ── Categorías y etiquetas ──
+*/// ── Categorías y etiquetas ──
 
 export async function getCategories(): Promise<WPCategory[]> {
   try {
