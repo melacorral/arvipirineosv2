@@ -4,6 +4,34 @@ const WP_URL = "https://kthulu.arvipirineos.es/wp-json/wp/v2";
 
 const headers = { "Accept": "application/json" };
 
+/* aquí el pegote de gemini tras modificar env y añadir password de aplicacion para que el inmunify no nos banee*/
+// src/lib/wordpress.ts
+const WP_URL = "https://kthulu.arvipirineos.es/wp-json/wp/v2";
+
+// 1. Leemos las credenciales del .env
+const wpUser = import.meta.env.WP_API_USER;
+const wpAppPassRaw = import.meta.env.WP_API_APP_PASS;
+
+// 2. Preparamos las cabeceras base
+const headers: Record<string, string> = { 
+  "Accept": "application/json",
+  // Simulamos un navegador normal para evitar saltar otras alarmas
+  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+};
+
+// 3. Generamos el token de seguridad si tenemos las credenciales
+if (wpUser && wpAppPassRaw) {
+  // Limpiamos los espacios por si acaso copiaste la contraseña tal cual de WordPress
+  const wpAppPass = wpAppPassRaw.replace(/\s+/g, '');
+  
+  // Codificamos en Base64 (usuario:contraseña)
+  const token = btoa(`${wpUser}:${wpAppPass}`);
+  
+  // Añadimos el pase VIP a las cabeceras
+  headers["Authorization"] = `Basic ${token}`;
+}
+
+
 export interface WPCategory {
   id: number;
   name: string;
@@ -86,6 +114,7 @@ export async function getPosts(perPage = 100): Promise<WPPost[]> {
 
   return posts;
 }
+/* nuevo bloque de prueba a ver si renderiza */
 export async function getPostBySlug(slug: string): Promise<WPPost | null> {
   try {
     const res = await fetch(`${WP_URL}/posts?slug=${slug}&_embed`, { headers });
