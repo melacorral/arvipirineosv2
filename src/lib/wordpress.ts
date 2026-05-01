@@ -51,7 +51,7 @@ export interface WPPost {
 
 // ── Posts ── 
  
- /* export async function getPosts(perPage = 100): Promise<WPPost[]> {
+  export async function getPosts(perPage = 100): Promise<WPPost[]> {
   const url = `${WP_URL}/posts?per_page=${perPage}&_embed`;
   console.log("[WP] Fetching:", url);
   try {
@@ -114,49 +114,7 @@ export async function getPostsByTag(tagId: number, perPage = 100): Promise<WPPos
     } catch { return []; }
   } catch { return []; }
 } 
- */
-export async function getPosts(perPage = 100): Promise<WPPost[]> {
-  const url = `${WP_URL}/posts?per_page=${perPage}&_embed&status=publish`;
 
-  console.log("[WP] Fetching:", url);
-
-  const res = await fetch(url, {
-    headers,
-    cache: "no-store",
-  });
-
-  console.log("[WP] Status:", res.status);
-  console.log("[WP] Content-Type:", res.headers.get("content-type"));
-
-  if (!res.ok) {
-    throw new Error(`[WP] Error fetching posts: ${res.status} ${res.statusText}`);
-  }
-
-  const text = await res.text();
-  console.log("[WP] Body start:", text.substring(0, 300));
-
-  let posts: unknown;
-
-  try {
-    posts = JSON.parse(text);
-  } catch (parseErr) {
-    throw new Error(`[WP] JSON parse error while fetching posts: ${String(parseErr)}`);
-  }
-
-  console.log("[WP] Parsed type:", typeof posts, "isArray:", Array.isArray(posts));
-
-  if (!Array.isArray(posts)) {
-    throw new Error("[WP] WordPress did not return an array of posts");
-  }
-
-  console.log("[WP] Posts found:", posts.length);
-
-  if (posts.length === 0) {
-    throw new Error("[WP] WordPress returned zero posts. Build cancelled to avoid publishing an empty blog index.");
-  }
-
-  return posts as WPPost[];
-}
 // ── Categorías y etiquetas ──
 
 export async function getCategories(): Promise<WPCategory[]> {
