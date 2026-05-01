@@ -86,6 +86,59 @@ export async function getPosts(perPage = 100): Promise<WPPost[]> {
 
   return posts;
 }
+export async function getPostBySlug(slug: string): Promise<WPPost | null> {
+  try {
+    const res = await fetch(`${WP_URL}/posts?slug=${slug}&_embed`, { headers });
+    if (!res.ok) return null;
+
+    const text = await res.text();
+
+    try {
+      const posts = JSON.parse(text);
+      return Array.isArray(posts) && posts.length > 0 ? posts[0] : null;
+    } catch {
+      return null;
+    }
+  } catch {
+    return null;
+  }
+}
+
+export async function getPostsByCategory(categoryId: number, perPage = 100): Promise<WPPost[]> {
+  try {
+    const res = await fetch(`${WP_URL}/posts?categories=${categoryId}&per_page=${perPage}&_embed`, { headers });
+    if (!res.ok) return [];
+
+    const text = await res.text();
+
+    try {
+      const posts = JSON.parse(text);
+      return Array.isArray(posts) ? posts : [];
+    } catch {
+      return [];
+    }
+  } catch {
+    return [];
+  }
+}
+
+export async function getPostsByTag(tagId: number, perPage = 100): Promise<WPPost[]> {
+  try {
+    const res = await fetch(`${WP_URL}/posts?tags=${tagId}&per_page=${perPage}&_embed`, { headers });
+    if (!res.ok) return [];
+
+    const text = await res.text();
+
+    try {
+      const posts = JSON.parse(text);
+      return Array.isArray(posts) ? posts : [];
+    } catch {
+      return [];
+    }
+  } catch {
+    return [];
+  }
+}
 /*// ── Posts ── 
  
   export async function getPosts(perPage = 100): Promise<WPPost[]> {
