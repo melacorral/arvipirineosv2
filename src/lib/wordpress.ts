@@ -1,9 +1,3 @@
-
-// src/lib/wordpress.ts
-const WP_URL = "https://kthulu.arvipirineos.es/wp-json/wp/v2";
-
-const headers = { "Accept": "application/json" };
-
 /* aquí el pegote de gemini tras modificar env y añadir password de aplicacion para que el inmunify no nos banee*/
 // src/lib/wordpress.ts
 const WP_URL = "https://kthulu.arvipirineos.es/wp-json/wp/v2";
