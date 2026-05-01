@@ -44,10 +44,29 @@
 
   type ConsentValue = "all" | "essential" | null;
 
+  // --- FUNCIÓN PARA DESPERTAR ANALYTICS ---
+  function activateAnalytics() {
+    const scripts = document.querySelectorAll('script[data-consent="analytics"]');
+    scripts.forEach(oldScript => {
+      const newScript = document.createElement('script');
+      
+      // Copiamos todos los atributos (src, async, data-consent...)
+      Array.from(oldScript.attributes).forEach(attr => {
+        newScript.setAttribute(attr.name, attr.value);
+      });
+      
+      // Cambiamos el tipo para que el navegador lo ejecute
+      newScript.type = 'text/javascript';
+      newScript.innerHTML = oldScript.innerHTML;
+      
+      oldScript.parentNode?.replaceChild(newScript, oldScript);
+    });
+  }
+
   function getConsent(): ConsentValue {
     try {
       const val = localStorage.getItem(STORAGE_KEY);
-      if (val === "all" || val === "essential") return val;
+      if (val === "all" || val === "essential") return val as ConsentValue;
     } catch { /* localStorage no disponible */ }
     return null;
   }
@@ -55,6 +74,12 @@
   function setConsent(value: "all" | "essential") {
     try { localStorage.setItem(STORAGE_KEY, value); } catch {}
     hideBanner();
+    
+    // Si el usuario acepta todo, activamos Analytics al momento
+    if (value === "all") {
+      activateAnalytics();
+    }
+    
     window.dispatchEvent(new CustomEvent("cookie-consent", { detail: { consent: value } }));
   }
 
@@ -62,9 +87,14 @@
   function hideBanner() { banner?.classList.add("translate-y-full"); }
 
   const consent = getConsent();
+  
   if (!consent) {
     setTimeout(showBanner, 800);
   } else {
+    // Si ya aceptó en el pasado, lo activamos nada más cargar la página
+    if (consent === "all") {
+      activateAnalytics();
+    }
     window.dispatchEvent(new CustomEvent("cookie-consent", { detail: { consent } }));
   }
 

@@ -4,7 +4,6 @@ import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import CookieBanner from "@/components/CookieBanner.astro";
-import { GoogleAnalytics } from "astro-google-analytics";
 import "@/styles/global.css";
 
 interface Props {
@@ -16,11 +15,26 @@ interface Props {
 const { title, description, image, noindex } = Astro.props;
 ---
 <html lang="es">
-  <head>
-    <BaseHead title={title} description={description} image={image ?? undefined} noindex={noindex} />
-    <GoogleAnalytics id="G-L9SLY17ZWN" />
-    <slot name="head" />
-  </head>
+ <head>
+  <BaseHead title={title} description={description} image={image ?? undefined} noindex={noindex} />
+  
+  <!-- Inyectamos aquí el código manual "dormido" -->
+  <script 
+    type="text/plain" 
+    data-consent="analytics" 
+    async 
+    src="https://www.googletagmanager.com/gtag/js?id=G-L9SLY17ZWN">
+  </script>
+
+  <script type="text/plain" data-consent="analytics">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-L9SLY17ZWN');
+  </script>
+
+  <slot name="head" />
+</head>
   <body>
     <Header />
     <main><slot /></main>
