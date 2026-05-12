@@ -76,12 +76,7 @@ export async function getPosts(perPage = 100): Promise<WPPost[]> {
 
   console.log("[WP] Fetching:", url);
 
-  const res = await fetch(url, {
-    headers: {
-      ...headers,
-      "User-Agent": "ArvipirineosAstroBuild/1.0",
-    },
-  });
+  const res = await fetch(url, { headers: });
 
   const contentType = res.headers.get("content-type") ?? "";
   const text = await res.text();
